@@ -1,8 +1,15 @@
-export default function Home() {
-  return (
-    <main style={{ padding: "40px", textAlign: "center" }}>
-      <h1>موقعي شغال 🚀</h1>
-      <p>تم بناء الموقع بنجاح</p>
-    </main>
-  );
+{
+  "name": "nextjs-app",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest"
+  }
 }

@@ -11,5 +11,10 @@
     "next": "latest",
     "react": "latest",
     "react-dom": "latest"
+  },
+  "devDependencies": {
+    "tailwindcss": "^4",
+    "postcss": "^8",
+    "autoprefixer": "^10"
   }
 }

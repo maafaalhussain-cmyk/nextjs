@@ -5,4 +5,4 @@ export default function Home() {
       <p>رجعنا الصفحة بنجاح 🚀</p>
     </main>
   );
-}
+}// update 1

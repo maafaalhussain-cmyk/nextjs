@@ -6,42 +6,53 @@ export default function Page() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const text = encodeURIComponent(
-      `الاسم: ${name}\nرقم الجوال: ${phone}`
-    );
+    const message = `الاسم: ${name}\nرقم الجوال: ${phone}`;
 
-    const url = `https://wa.me/966559168717?text=${text}`;
-    window.open(url, "_blank");
-  }
+    const url = `https://wa.me/966559168717?text=${encodeURIComponent(
+      message
+    )}`;
+
+    window.location.href = url;
+  };
 
   return (
-    <main style={{ padding: 40, textAlign: "center" }}>
-      <h1>🔥 تعلم كيف تربح من الذكاء الاصطناعي</h1>
-      <p>ابدأ الآن بدون خبرة</p>
+    <main style={{ padding: "20px", textAlign: "center" }}>
+      <h1>تواصل معنا</h1>
 
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="اسمك"
+          placeholder="الاسم"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          required
+          style={{ display: "block", margin: "10px auto", padding: "10px" }}
         />
 
-        <br />
-
         <input
-          type="text"
+          type="tel"
           placeholder="رقم الجوال"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
+          required
+          style={{ display: "block", margin: "10px auto", padding: "10px" }}
         />
 
-        <br />
-
-        <button type="submit">إرسال على واتساب</button>
+        <button
+          type="submit"
+          style={{
+            padding: "10px 20px",
+            backgroundColor: "green",
+            color: "white",
+            border: "none",
+            cursor: "pointer",
+          }}
+        >
+          إرسال عبر واتساب
+        </button>
       </form>
     </main>
   );

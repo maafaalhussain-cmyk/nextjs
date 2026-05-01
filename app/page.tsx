@@ -7,15 +7,15 @@ export default function Page() {
   const [phone, setPhone] = useState("");
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  e.preventDefault();
 
-    const text = encodeURIComponent(
-      `الاسم: ${name}\nرقم الجوال: ${phone}`
-    );
+  const text = encodeURIComponent(
+    `الاسم: ${name}\nرقم الجوال: ${phone}`
+  );
 
-    const url = `https://wa.me/966559168717?text=${text}`;
-    window.open(url, "_blank");
-  }
+  const url = `https://wa.me/966559168717?text=${text}`;
+  window.open(url, "_blank");
+}
 
   return (
     <main style={{ padding: 40, textAlign: "center" }}>

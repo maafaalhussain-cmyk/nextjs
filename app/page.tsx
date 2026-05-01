@@ -6,11 +6,11 @@ export default function Page() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const message = `الاسم: ${name}%0Aرقم الجوال: ${phone}`;
-    const url = `https://wa.me/966559168717?text=${message}`;
+    const message = `الاسم: ${name}\nرقم الجوال: ${phone}`;
+    const url = `https://wa.me/966559168717?text=${encodeURIComponent(message)}`;
 
     window.location.href = url;
   };
@@ -27,11 +27,7 @@ export default function Page() {
           placeholder="اسمك"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          style={{
-            padding: "10px",
-            margin: "5px",
-            width: "250px",
-          }}
+          style={{ padding: "10px", margin: "5px", width: "250px" }}
         />
 
         <br />
@@ -41,11 +37,7 @@ export default function Page() {
           placeholder="رقم جوالك"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
-          style={{
-            padding: "10px",
-            margin: "5px",
-            width: "250px",
-          }}
+          style={{ padding: "10px", margin: "5px", width: "250px" }}
         />
 
         <br />

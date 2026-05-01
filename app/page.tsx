@@ -9,7 +9,11 @@ export default function Page() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const message = `الاسم: ${name}\nرقم الجوال: ${phone}`;
+    const message = `السلام عليكم 👋
+أنا اسمي ${name}
+
+حاب أعرف أكثر عن عرضك 👇
+رقم جوالي: ${phone}`;
 
     const url = `https://wa.me/966559168717?text=${encodeURIComponent(
       message
@@ -51,7 +55,7 @@ export default function Page() {
             cursor: "pointer",
           }}
         >
-          إرسال عبر واتساب
+         إرسال عبر واتساب
         </button>
       </form>
     </main>

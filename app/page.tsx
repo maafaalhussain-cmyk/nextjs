@@ -1,7 +1,3 @@
-1"}
 export default function Page() {
-  return (
-    <div>
-      <h1>Hello World</h1>
-    </div>
-  )
+  return <h1>Hello World</h1>;
+}

@@ -7,15 +7,15 @@ export default function Page() {
   const [phone, setPhone] = useState("");
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-  e.preventDefault();
+    e.preventDefault();
 
-  const text = encodeURIComponent(
-    `الاسم: ${name}\nرقم الجوال: ${phone}`
-  );
+    const text = encodeURIComponent(
+      `الاسم: ${name}\nرقم الجوال: ${phone}`
+    );
 
-  const url = `https://wa.me/966559168717?text=${text}`;
-  window.open(url, "_blank");
-}
+    const url = `https://wa.me/966559168717?text=${text}`;
+    window.open(url, "_blank");
+  }
 
   return (
     <main style={{ padding: 40, textAlign: "center" }}>
@@ -28,20 +28,35 @@ export default function Page() {
           placeholder="اسمك"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          required
+          style={{ padding: "10px", margin: "5px", width: "220px" }}
         />
+
         <br />
 
         <input
           type="text"
-          placeholder="رقم جوالك"
+          placeholder="رقم الجوال"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
-          required
+          style={{ padding: "10px", margin: "5px", width: "220px" }}
         />
+
         <br />
 
-        <button type="submit">إرسال على واتساب</button>
+        <button
+          type="submit"
+          style={{
+            padding: "12px 25px",
+            backgroundColor: "green",
+            color: "white",
+            border: "none",
+            borderRadius: "6px",
+            marginTop: "10px",
+            fontSize: "16px",
+          }}
+        >
+          إرسال على واتساب
+        </button>
       </form>
     </main>
   );

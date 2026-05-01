@@ -6,7 +6,9 @@ export default function Page() {
       <p>بدون خبرة… وابدأ من اليوم</p>
 
       <button
-        onClick={() => window.location.href = "https://wa.me/966559168717"}
+        onClick={() => {
+          window.location.href = "https://wa.me/966559168717";
+        }}
         style={{ padding: "10px 20px", fontSize: "16px" }}
       >
         تواصل الآن

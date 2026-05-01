@@ -5,41 +5,19 @@ export default function Page() {
       <p>ابدأ الآن بدون خبرة</p>
 
       <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          const name = e.target.name.value;
-          const phone = e.target.phone.value;
-          const msg = e.target.msg.value;
-
-          const text = `الاسم: ${name}%0Aالرقم: ${phone}%0A${msg}`;
-          window.open(
-            `https://wa.me/966559168717?text=${text}`,
-            "_blank"
-          );
-        }}
+        action="https://wa.me/966559168717"
+        method="get"
+        target="_blank"
         style={{ marginTop: "20px" }}
       >
         <input
-          name="name"
-          placeholder="اسمك"
+          type="text"
+          name="text"
+          placeholder="اكتب اسمك ورقمك"
           required
           style={{ padding: "10px", margin: "5px", width: "220px" }}
         />
-        <br />
 
-        <input
-          name="phone"
-          placeholder="رقمك"
-          required
-          style={{ padding: "10px", margin: "5px", width: "220px" }}
-        />
-        <br />
-
-        <textarea
-          name="msg"
-          placeholder="وش تبي تتعلم؟"
-          style={{ padding: "10px", margin: "5px", width: "220px" }}
-        />
         <br />
 
         <button

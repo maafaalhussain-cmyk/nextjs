@@ -9,11 +9,7 @@ export default function Page() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const message = `السلام عليكم 👋
-أنا اسمي ${name}
-
-حاب أعرف أكثر عن عرضك 👇
-رقم جوالي: ${phone}`;
+    const message = `الاسم: ${name}\nرقم الجوال: ${phone}`;
 
     const url = `https://wa.me/966559168717?text=${encodeURIComponent(
       message

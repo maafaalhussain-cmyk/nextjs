@@ -55,7 +55,7 @@ export default function Page() {
             cursor: "pointer",
           }}
         >
-         إرسال عبر واتساب
+          إرسال عبر واتساب
         </button>
       </form>
     </main>

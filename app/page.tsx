@@ -1,56 +1,59 @@
-"use client";
-
-import { useState } from "react";
-
 export default function Page() {
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const message = `الاسم: ${name}%0Aالرقم: ${phone}`;
-    window.location.href = `https://wa.me/966559168717?text=${message}`;
-  };
-
   return (
     <main style={{ padding: "40px", textAlign: "center" }}>
       <h1>🔥 تعلم كيف تربح من الذكاء الاصطناعي</h1>
       <p>ابدأ الآن بدون خبرة</p>
 
-      <form onSubmit={handleSubmit} style={{ marginTop: "20px" }}>
-        <input
-          type="text"
-          placeholder="اسمك"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          style={{ padding: "10px", margin: "5px", width: "200px" }}
-        />
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          const name = e.target.name.value;
+          const phone = e.target.phone.value;
+          const msg = e.target.msg.value;
 
+          const text = `الاسم: ${name}%0Aالرقم: ${phone}%0A${msg}`;
+          window.open(
+            `https://wa.me/966559168717?text=${text}`,
+            "_blank"
+          );
+        }}
+        style={{ marginTop: "20px" }}
+      >
+        <input
+          name="name"
+          placeholder="اسمك"
+          required
+          style={{ padding: "10px", margin: "5px", width: "220px" }}
+        />
         <br />
 
         <input
-          type="tel"
+          name="phone"
           placeholder="رقمك"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          style={{ padding: "10px", margin: "5px", width: "200px" }}
+          required
+          style={{ padding: "10px", margin: "5px", width: "220px" }}
         />
+        <br />
 
+        <textarea
+          name="msg"
+          placeholder="وش تبي تتعلم؟"
+          style={{ padding: "10px", margin: "5px", width: "220px" }}
+        />
         <br />
 
         <button
           type="submit"
           style={{
-            marginTop: "10px",
-            padding: "10px 20px",
+            padding: "12px 20px",
             backgroundColor: "green",
             color: "white",
             border: "none",
-            borderRadius: "5px",
+            borderRadius: "6px",
+            marginTop: "10px",
           }}
         >
-          إرسال واتساب
+          إرسال على واتساب
         </button>
       </form>
     </main>

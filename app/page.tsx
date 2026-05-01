@@ -28,7 +28,6 @@ export default function Page() {
           placeholder="اسمك"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          style={{ padding: "10px", margin: "5px", width: "220px" }}
         />
 
         <br />
@@ -38,25 +37,11 @@ export default function Page() {
           placeholder="رقم الجوال"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
-          style={{ padding: "10px", margin: "5px", width: "220px" }}
         />
 
         <br />
 
-        <button
-          type="submit"
-          style={{
-            padding: "12px 25px",
-            backgroundColor: "green",
-            color: "white",
-            border: "none",
-            borderRadius: "6px",
-            marginTop: "10px",
-            fontSize: "16px",
-          }}
-        >
-          إرسال على واتساب
-        </button>
+        <button type="submit">إرسال على واتساب</button>
       </form>
     </main>
   );

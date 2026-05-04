@@ -1,59 +1,41 @@
 "use client";
 
-import { useState } from "react";
-
 export default function Page() {
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const message = `الاسم: ${name}\nرقم الجوال: ${phone}`;
-
-    const url = `https://wa.me/966559168717?text=${encodeURIComponent(
-      message
-    )}`;
-
-    window.location.href = url;
-  };
-
   return (
-    <main style={{ padding: "20px", textAlign: "center" }}>
-      <h1>تواصل معنا</h1>
+    <div style={{ textAlign: "center", padding: "20px" }}>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="الاسم"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-          style={{ display: "block", margin: "10px auto", padding: "10px" }}
-        />
+      <h1>نظارة شمسية فخمة 😎🔥</h1>
 
-        <input
-          type="tel"
-          placeholder="رقم الجوال"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          required
-          style={{ display: "block", margin: "10px auto", padding: "10px" }}
-        />
+      <p>
+        ستايل عصري + جودة عالية <br/>
+        حماية من أشعة الشمس ☀️ <br/>
+        مع علبة فخمة 🎁 <br/>
+        توصيل لجميع مناطق السعودية 🚚
+      </p>
 
-        <button
-          type="submit"
-          style={{
-            padding: "10px 20px",
-            backgroundColor: "green",
-            color: "white",
-            border: "none",
-            cursor: "pointer",
-          }}
-        >
-          إرسال عبر واتساب
-        </button>
-      </form>
-    </main>
+      <h2>السعر: 79 ريال</h2>
+
+      <img 
+        src="https://i.imgur.com/4QyZ4kG.jpg"
+        alt="نظارة"
+        style={{ width: "250px" }}
+      />
+
+      <br/><br/>
+
+      <a 
+        href="https://wa.me/966559168717?text=أبغى%20أطلب%20النظارة"
+        style={{
+          backgroundColor: "green",
+          color: "white",
+          padding: "15px 25px",
+          textDecoration: "none",
+          fontSize: "18px"
+        }}
+      >
+        اطلب الآن عبر واتساب
+      </a>
+
+    </div>
   );
 }

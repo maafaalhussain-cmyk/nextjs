@@ -24,7 +24,7 @@ export default function Page() {
       <br/><br/>
 
       <a 
-        href="https://wa.me/966559168717?text=أبغى%20أطلب%20النظارة"
+        href="https://wa.me/966543477249?text=أبغى%20أطلب%20النظارة"
         style={{
           backgroundColor: "green",
           color: "white",

@@ -16,7 +16,7 @@ export default function Page() {
       <h2>السعر: 79 ريال</h2>
 
       <img 
-        src="https://i.imgur.com/4QyZ4kG.jpg"
+        src="/IMG_3026.jpeg"
         alt="نظارة"
         style={{ width: "250px" }}
       />

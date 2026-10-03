@@ -1,0 +1,3 @@
+import Link from "next/link";
+export const metadata={title:"اتصل بنا | J & M"};
+export default function Contact(){return <main dir="rtl" className="info-page"><Link href="/" className="info-back">← العودة للمتجر</Link><span className="eyebrow">نحن هنا للمساعدة</span><h1>تواصل مع J &amp; M</h1><p>للاستفسارات حول المتجر أو طلبات الانضمام كبائع، ستتوفر قنوات التواصل الرسمية هنا بعد اعتماد بريد الدعم ورقم خدمة العملاء.</p><p>يمكنك حالياً تصفح المنتجات والتعرف على تجربة المتجر.</p><Link href="/register" className="primary-button">الانضمام إلى المتجر ←</Link></main>}

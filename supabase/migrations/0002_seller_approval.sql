@@ -22,9 +22,9 @@ begin
     set status = decision, reviewed_at = now(), reviewed_by = (select auth.uid())
     where id = application_id;
   if decision = 'approved' then
-    update public.profiles set role = 'seller', updated_at = now() where id = target_user;
+    update public.profiles set role = 'seller', seller_status = 'approved', updated_at = now() where id = target_user;
   else
-    update public.profiles set role = 'customer', updated_at = now() where id = target_user;
+    update public.profiles set role = 'customer', seller_status = 'rejected', updated_at = now() where id = target_user;
   end if;
 end;
 $$;

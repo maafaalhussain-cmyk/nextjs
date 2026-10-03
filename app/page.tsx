@@ -34,7 +34,7 @@ export default function Page() {
       <header className="site-header">
         <a className="brand" href="#"><span className="brand-mark">J&amp;M</span><span>J & M<small>كل ما تحتاجه في مكان واحد</small></span></a>
         <nav className="main-nav"><a href="#products">المنتجات</a><a href="#categories">التصنيفات</a><a href="#seller">كن بائعاً</a></nav>
-        <div className="header-actions"><a className="login-link" href="#seller">دخول / تسجيل</a><button className="cart-button" aria-label="فتح سلة المشتريات" onClick={() => setCartOpen(true)}>🛍️ <span>السلة</span><b>{cart.length}</b></button></div>
+        <div className="header-actions"><a className="login-link" href="/login">دخول</a><a className="login-link" href="/register">إنشاء حساب</a><button className="cart-button" aria-label="فتح سلة المشتريات" onClick={() => setCartOpen(true)}>🛍️ <span>السلة</span><b>{cart.length}</b></button></div>
       </header>
 
       <section className="hero">

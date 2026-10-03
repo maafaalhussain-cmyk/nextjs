@@ -34,7 +34,7 @@ export default function AuthForm({ mode }: Props) {
         const { data: result, error: signUpError } = await supabase.auth.signUp({
           email,
           password,
-          options: { data: { full_name: fullName, phone, role } },
+          options: { data: { full_name: fullName, phone, requested_role: role } },
         });
         if (signUpError) throw signUpError;
         if (!result.session) {

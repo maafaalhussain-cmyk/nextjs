@@ -37,7 +37,7 @@ create table if not exists public.delivery_confirmations (
   proof_reference text,
   created_at timestamptz not null default now(),
   constraint delivery_confirmation_requires_proof
-    check (customer_confirmed_at is null or (barcode_scanned_at is not null and otp_verified_at is not null))
+    check (customer_confirmed_at is null or (barcode_scanned_at is not null and ((confirmation_method = 'otp' and otp_verified_at is not null) or (confirmation_method in ('signature','authorized_recipient') and proof_reference is not null))))
 );
 
 alter table public.delivery_events enable row level security;

@@ -6,7 +6,7 @@ create table if not exists public.profiles (
   full_name text not null default '',
   phone text not null default '',
   role text not null default 'customer' check (role in ('customer','seller','admin')),
-  seller_status text not null default 'none' check (seller_status in ('none','pending','approved','rejected')),
+  seller_status text not null default 'none' check (seller_status in ('none','not_applicable','pending','approved','rejected')),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );

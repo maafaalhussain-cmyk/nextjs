@@ -6,7 +6,7 @@ create table if not exists public.profiles (
   full_name text not null,
   phone text,
   role text not null default 'customer' check (role in ('customer','seller','admin')),
-  seller_status text not null default 'not_applicable' check (seller_status in ('not_applicable','pending','approved','rejected')),
+  seller_status text not null default 'not_applicable' check (seller_status in ('none','not_applicable','pending','approved','rejected')),
   created_at timestamptz not null default now()
 );
 
@@ -82,14 +82,15 @@ as $$
 declare
   chosen_role text;
 begin
-  chosen_role := case when new.raw_user_meta_data ->> 'role' = 'seller' then 'seller' else 'customer' end;
+  -- Never grant a privileged role from user-controlled signup metadata.
+  chosen_role := 'customer';
   insert into public.profiles (id, full_name, phone, role, seller_status)
   values (
     new.id,
     coalesce(nullif(new.raw_user_meta_data ->> 'full_name',''), split_part(new.email,'@',1)),
     new.raw_user_meta_data ->> 'phone',
     chosen_role,
-    case when chosen_role = 'seller' then 'pending' else 'not_applicable' end
+    case when new.raw_user_meta_data ->> 'requested_role' = 'seller' then 'pending' else 'not_applicable' end
   )
   on conflict (id) do nothing;
   return new;

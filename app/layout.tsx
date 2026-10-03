@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./auth-floral.css";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 
 export const viewport = { themeColor: "#102b52", width: "device-width", initialScale: 1 };

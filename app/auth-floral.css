@@ -1,0 +1,35 @@
+/* J&M authentication: crisp blue and white with tiny floral accents */
+.auth-shell{background:#f7faff;color:#183654}
+.auth-visual{background:radial-gradient(circle at 80% 18%,#fff 0,transparent 28%),linear-gradient(145deg,#eef6ff 0%,#e1efff 55%,#d4e7fc 100%);color:#173b65}
+.auth-visual::before{content:"✿";position:absolute;right:7%;top:13%;font-size:42px;line-height:1;color:#7eaddf;opacity:.48;transform:rotate(-18deg);pointer-events:none}
+.auth-visual::after{content:"✿  ❀  ✿";position:absolute;left:8%;bottom:19%;font-size:17px;letter-spacing:13px;color:#6f9fd1;opacity:.55;transform:rotate(8deg);pointer-events:none}
+.auth-visual .auth-brand{color:#183b65}
+.auth-visual .auth-brand small{color:#7189a5}
+.auth-visual .auth-brand-mark{background:#fff;color:#2864a6;box-shadow:0 8px 24px #315f8d18}
+.auth-visual .auth-kicker{color:#3978b8}
+.auth-visual h1{color:#183b65}
+.auth-visual h1 em{color:#3979bd}
+.auth-visual-copy>p{color:#627b98}
+.auth-perks span{border-color:#b8d1ec;background:#ffffff80;color:#466789}
+.auth-visual-bottom{color:#6883a2}
+.auth-orb{border-color:#7ca7dc35}
+.auth-panel{background:linear-gradient(180deg,#f8fbff,#fff 70%)}
+.auth-card{border-color:#e0ebf7;box-shadow:0 22px 70px #234f7910}
+.auth-card .auth-kicker{color:#3978b8}
+.auth-card h2{color:#183654}
+.auth-form input:focus{border-color:#6c9ed8;box-shadow:0 0 0 3px #6c9ed820}
+.password-wrap button,.auth-form-meta a,.auth-switch a{color:#356fae}
+.auth-submit{background:linear-gradient(100deg,#4d8acb,#245f9e);box-shadow:0 10px 22px #356fae30}
+.auth-form input[type=checkbox]{accent-color:#356fae}
+.role-option.selected{border-color:#6e9fd5;background:#edf5ff;box-shadow:0 0 0 2px #6e9fd51a}
+.auth-mobile-brand .auth-brand{color:#293f5c}
+.auth-mobile-brand .auth-brand-mark{background:#e6f1ff;color:#356fae;box-shadow:none}
+.auth-mobile-brand .auth-brand small{color:#7389a4}
+.auth-back{color:#7187a2}
+.auth-footer{color:#899bb1}
+@media(max-width:760px){
+ .auth-shell{background:linear-gradient(145deg,#edf5ff,#fff 65%)}
+ .auth-panel{background:transparent;overflow:hidden}
+ .auth-panel::before{content:"✿  ❀";position:absolute;top:18px;left:13px;font-size:19px;letter-spacing:10px;color:#83add8;opacity:.38;pointer-events:none}
+ .auth-card{position:relative;z-index:1;border-color:#dce9f7;box-shadow:0 18px 55px #3e75b010}
+}

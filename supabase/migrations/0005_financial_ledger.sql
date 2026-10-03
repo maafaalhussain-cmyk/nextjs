@@ -78,9 +78,13 @@ create or replace function public.prevent_posted_ledger_mutation()
 returns trigger language plpgsql set search_path = '' as $$
 declare target_status text;
 begin
-  select status into target_status
-  from public.financial_transactions
-  where id = coalesce(old.transaction_id, new.transaction_id);
+  if tg_op = 'INSERT' then
+    select status into target_status
+    from public.financial_transactions where id = new.transaction_id;
+  else
+    select status into target_status
+    from public.financial_transactions where id = old.transaction_id;
+  end if;
   if target_status = 'posted' then
     raise exception 'posted ledger entries are immutable; create a reversing transaction';
   end if;
@@ -91,7 +95,7 @@ $$;
 
 drop trigger if exists financial_ledger_immutable on public.financial_ledger_entries;
 create trigger financial_ledger_immutable
-before update or delete on public.financial_ledger_entries
+before insert or update or delete on public.financial_ledger_entries
 for each row execute function public.prevent_posted_ledger_mutation();
 
 -- A journal can be posted only when total debits equal total credits.
@@ -100,7 +104,7 @@ returns trigger language plpgsql set search_path = '' as $$
 declare debit_total numeric;
 declare credit_total numeric;
 begin
-  if new.status = 'posted' and old.status is distinct from 'posted' then
+  if new.status = 'posted' and (tg_op = 'INSERT' or old.status is distinct from 'posted') then
     select
       coalesce(sum(amount_halalas) filter (where side = 'debit'), 0),
       coalesce(sum(amount_halalas) filter (where side = 'credit'), 0)
@@ -119,7 +123,7 @@ $$;
 
 drop trigger if exists financial_transaction_balance_check on public.financial_transactions;
 create trigger financial_transaction_balance_check
-before update of status on public.financial_transactions
+before insert or update of status on public.financial_transactions
 for each row execute function public.assert_financial_transaction_balanced();
 
 -- Minute-level Riyadh reporting base. Aggregate this view by hour/day/week/month

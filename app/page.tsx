@@ -6,7 +6,7 @@ const products = [
   { id: 1, name: "نظارة شمسية كلاسيكية", category: "الأزياء", price: 79, oldPrice: 119, image: "/IMG_3026.jpeg", tag: "الأكثر طلباً" },
   { id: 2, name: "ساعة يومية أنيقة", category: "الإلكترونيات", price: 149, oldPrice: 199, image: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=700&auto=format&fit=crop&q=85", tag: "عرض خاص" },
   { id: 3, name: "حقيبة عملية", category: "الأزياء", price: 129, oldPrice: 169, image: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=700&auto=format&fit=crop&q=85", tag: "وصل حديثاً" },
-  { id: 4, name: "سماعة لاسلكية", category: "الإلكترونيات", price: 99, oldPrice: 139, image: "https://images.unsplash.com/photo-150 não", tag: "الأكثر مبيعاً" },
+  { id: 4, name: "سماعة لاسلكية", category: "الإلكترونيات", price: 99, oldPrice: 139, image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=700&auto=format&fit=crop&q=85", tag: "الأكثر مبيعاً" },
   { id: 5, name: "مجموعة عناية شخصية", category: "الجمال والعناية", price: 89, oldPrice: 115, image: "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?w=700&auto=format&fit=crop&q=85", tag: "اختيارنا" },
   { id: 6, name: "حذاء رياضي مريح", category: "الأزياء", price: 189, oldPrice: 239, image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=700&auto=format&fit=crop&q=85", tag: "خصم مميز" },
 ];

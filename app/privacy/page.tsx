@@ -1,0 +1,3 @@
+import Link from "next/link";
+export const metadata={title:"الخصوصية | J & M"};
+export default function Privacy(){return <main dir="rtl" className="info-page"><Link href="/" className="info-back">← العودة للمتجر</Link><span className="eyebrow">الخصوصية</span><h1>خصوصيتك مهمة</h1><p>عند تفعيل التسجيل والطلبات، ستُستخدم البيانات اللازمة لتشغيل الحساب وتنفيذ الطلبات والتواصل بشأنها. لن تُطلب بيانات الدفع الحساسة داخل هذه الواجهة التجريبية.</p><p>هذه صفحة تعريفية أولية وليست بديلاً عن سياسة خصوصية قانونية نهائية. يجب اعتماد السياسة التفصيلية قبل إطلاق التسجيل والشراء الفعليين.</p><Link href="/" className="primary-button">العودة للرئيسية ←</Link></main>}

@@ -2,6 +2,20 @@
 
 Status: planning specification only. This document does not activate supplier integrations, customs clearance, payments, or customer-facing products. Commercial model clarified: J&M is the marketing/sales storefront; the supplier owns and holds the goods and performs picking, packing, dispatch and delivery directly to the Saudi customer. J&M does not buy or warehouse stock and does not operate its own shipping fleet.
 
+## Recommended operating model for J&M (decision proposal)
+
+Preferred starting structure: **disclosed commercial agency / supplier-as-seller model**, subject to Saudi legal and tax review and a signed supplier agreement.
+
+- Supplier remains the legal seller of the goods, owns the inventory, confirms the order, issues the goods invoice, and is responsible under contract for fulfillment, product conformity, delivery, customs/import arrangements, and agreed returns/refunds.
+- J&M is the disclosed marketing/ordering agent and earns a 15% commission/marketing fee under a written agreement. The agreement must state whether this 15% is calculated on supplier product price, the delivered customer price, or another defined base. The commercial intention here is 15% added to the supplier's confirmed all-in delivered price; do not call this a guaranteed net margin until payment, tax, support and refund costs are accounted for.
+- Preferred payment flow: use a payment service provider that expressly supports marketplace/agency split settlement and cross-border supplier payouts, with the supplier's share settled to the supplier and J&M's fee settled to J&M. Obtain provider approval for the exact structure and countries before implementation.
+- Do not hold customer funds in J&M's ordinary bank account and manually remit supplier funds as an informal workaround. If a suitable split-settlement arrangement is unavailable, use an authorized supplier checkout/affiliate-link model as phase one; the customer pays the supplier directly and J&M tracks attributable orders and receives commission under the affiliate/agency contract.
+- Only consider J&M collecting the full customer payment and later paying the supplier after written Saudi legal, tax and payment-regulatory review confirms the contract, invoicing, VAT, consumer obligations, and payment flow are appropriate.
+- Customer-facing pages must clearly identify the seller, J&M's intermediary role, delivery estimate, who handles returns/refunds, and whether duties/taxes are prepaid. Do not imply J&M is merely advertising if it actually facilitates the supply and checkout.
+- J&M can provide first-line customer support and coordinate cases, but supplier obligations and the legal seller's responsibilities must be explicit and must not be disclaimed unlawfully.
+
+This is a proposed architecture, not a legal opinion. Saudi VAT guidance distinguishes a marketplace that actively facilitates a supply from a platform limited to advertising/marketing or redirecting customers. SAMA's payment regulations also distinguish certain payments made through a commercial agent authorized by agreement from regulated payment services; the exact facts and contract matter. Confirm the arrangement with a Saudi lawyer/tax adviser and the chosen licensed PSP before accepting live payments.
+
 ## Commercial decisions
 
 - Fulfillment model: supplier owns/holds stock and handles picking, packing, export, shipping, customs/delivery arrangements and delivery directly to the Saudi customer. J&M is the storefront/marketing and order-routing intermediary; it does not buy inventory, warehouse goods, or ship parcels itself.

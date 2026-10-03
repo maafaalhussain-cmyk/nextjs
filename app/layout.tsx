@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "سوقنا | كل ما تحتاجه في مكان واحد",
+  title: "J & M | كل ما تحتاجه في مكان واحد",
   description: "تسوّق منتجات متنوعة من بائعين ومتاجر محلية في المملكة العربية السعودية.",
 };
 

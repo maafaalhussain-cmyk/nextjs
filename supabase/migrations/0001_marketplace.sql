@@ -71,3 +71,37 @@ create policy "customer reads own order items" on public.order_items for select 
   exists (select 1 from public.orders o where o.id = order_id and o.customer_id = auth.uid())
   or seller_id = auth.uid()
 );
+
+-- Create a profile automatically after Supabase Auth signup.
+create or replace function public.handle_new_user()
+returns trigger
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  chosen_role text;
+begin
+  chosen_role := case when new.raw_user_meta_data ->> 'role' = 'seller' then 'seller' else 'customer' end;
+  insert into public.profiles (id, full_name, phone, role, seller_status)
+  values (
+    new.id,
+    coalesce(nullif(new.raw_user_meta_data ->> 'full_name',''), split_part(new.email,'@',1)),
+    new.raw_user_meta_data ->> 'phone',
+    chosen_role,
+    case when chosen_role = 'seller' then 'pending' else 'not_applicable' end
+  )
+  on conflict (id) do nothing;
+  return new;
+end;
+$$;
+
+drop trigger if exists on_auth_user_created on auth.users;
+create trigger on_auth_user_created
+  after insert on auth.users
+  for each row execute procedure public.handle_new_user();
+
+create index if not exists products_status_category_idx on public.products(status, category);
+create index if not exists products_seller_id_idx on public.products(seller_id);
+create index if not exists orders_customer_id_created_at_idx on public.orders(customer_id, created_at desc);
+create index if not exists order_items_seller_id_idx on public.order_items(seller_id);

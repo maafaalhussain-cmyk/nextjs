@@ -1,0 +1,3 @@
+import Link from "next/link";
+export const metadata={title:"الشحن والتوصيل | J & M"};
+export default function Shipping(){return <main dir="rtl" className="info-page"><Link href="/" className="info-back">← العودة للمتجر</Link><span className="eyebrow">الشحن والتوصيل</span><h1>تفاصيل التوصيل</h1><p>J &amp; M منصة تجمع بائعين مستقلين. يتولى كل بائع تجهيز وشحن المنتجات التي يبيعها، لذلك قد تختلف رسوم الشحن ومدة التوصيل بحسب المنتج وموقع البائع والمدينة.</p><p>ستظهر تفاصيل الشحن وموعد التوصيل المتوقع قبل تأكيد الطلب بعد تفعيل نظام الطلبات.</p><Link href="/#products" className="primary-button">متابعة التسوق ←</Link></main>}

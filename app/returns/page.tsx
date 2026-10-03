@@ -1,0 +1,3 @@
+import Link from "next/link";
+export const metadata={title:"الاستبدال والاسترجاع | J & M"};
+export default function Returns(){return <main dir="rtl" className="info-page"><Link href="/" className="info-back">← العودة للمتجر</Link><span className="eyebrow">خدمة العملاء</span><h1>الاستبدال والاسترجاع</h1><p>تُعرض شروط الاستبدال والاسترجاع لكل منتج بحسب سياسة البائع والأنظمة المعمول بها في المملكة العربية السعودية. يرجى مراجعة الشروط قبل إتمام الشراء.</p><p>سيتم إضافة آلية طلب الإرجاع ومتابعة الحالة ضمن حساب العميل عند تفعيل نظام الطلبات.</p><Link href="/#products" className="primary-button">العودة للمنتجات ←</Link></main>}

@@ -1,35 +1,35 @@
 /* J&M floral authentication refresh — scoped to auth screens */
-.auth-shell{background:#fff9fb;color:#27334a}
-.auth-visual{background:radial-gradient(circle at 78% 22%,#fff 0,transparent 25%),linear-gradient(145deg,#fff1f4 0%,#fbe3e9 52%,#f6d8e1 100%);color:#26344b}
-.auth-visual::before{content:"❀";position:absolute;right:-58px;top:8%;font-size:clamp(260px,34vw,470px);line-height:1;color:#e9aebb;opacity:.28;transform:rotate(-18deg);pointer-events:none}
-.auth-visual::after{content:"✿     ❁";position:absolute;left:7%;bottom:17%;font-size:clamp(50px,7vw,90px);letter-spacing:18px;color:#cf8298;opacity:.23;transform:rotate(12deg);pointer-events:none}
-.auth-visual .auth-brand{color:#26344b}
+.auth-shell{background:#f5f9ff;color:#27334a}
+.auth-visual{background:radial-gradient(circle at 78% 22%,#fff 0,transparent 25%),linear-gradient(145deg,#eaf3ff 0%,#dceaff 52%,#c9ddf7 100%);color:#183b65}
+.auth-visual::before{content:"✿";position:absolute;right:-58px;top:8%;font-size:clamp(260px,34vw,470px);line-height:1;color:#8fb8e8;opacity:.28;transform:rotate(-18deg);pointer-events:none}
+.auth-visual::after{content:"✿  ❀";position:absolute;left:7%;bottom:17%;font-size:clamp(50px,7vw,90px);letter-spacing:18px;color:#7fa9dc;opacity:.23;transform:rotate(12deg);pointer-events:none}
+.auth-visual .auth-brand{color:#183b65}
 .auth-visual .auth-brand small{color:#8b7180}
-.auth-visual .auth-brand-mark{background:#fff;color:#b85f7b;box-shadow:0 10px 30px #a54c6b20}
-.auth-visual .auth-kicker{color:#ad6079}
-.auth-visual h1{color:#26344b}
+.auth-visual .auth-brand-mark{background:#fff;color:#326da8;box-shadow:0 10px 30px #a54c6b20}
+.auth-visual .auth-kicker{color:#477fb5}
+.auth-visual h1{color:#183b65}
 .auth-visual h1 em{color:#bd6683}
-.auth-visual-copy>p{color:#746574}
-.auth-perks span{border-color:#d9a9b8;background:#ffffff70;color:#765866}
-.auth-visual-bottom{color:#8b6c7a}
-.auth-orb{border-color:#c9879d35}
-.auth-panel{background:linear-gradient(180deg,#fffafd,#fff 70%)}
-.auth-card{border-color:#f2e2e8;box-shadow:0 22px 70px #8e49600d}
+.auth-visual-copy>p{color:#657b98}
+.auth-perks span{border-color:#a9c8eb;background:#ffffff70;color:#765866}
+.auth-visual-bottom{color:#7187a2}
+.auth-orb{border-color:#7ca7dc35}
+.auth-panel{background:linear-gradient(180deg,#f8fbff,#fff 70%)}
+.auth-card{border-color:#dce9f8;box-shadow:0 22px 70px #8e49600d}
 .auth-card .auth-kicker{color:#b76380}
 .auth-card h2{color:#28344b}
-.auth-form input:focus{border-color:#d77f9c;box-shadow:0 0 0 3px #d77f9c20}
-.password-wrap button,.auth-form-meta a,.auth-switch a{color:#b45d7a}
-.auth-submit{background:linear-gradient(100deg,#c96f8c,#a94e70);box-shadow:0 10px 22px #b45d7a30}
-.auth-form input[type=checkbox]{accent-color:#b45d7a}
-.role-option.selected{border-color:#cc7893;background:#fff5f8;box-shadow:0 0 0 2px #cc78931a}
+.auth-form input:focus{border-color:#6c9ed8;box-shadow:0 0 0 3px #6c9ed820}
+.password-wrap button,.auth-form-meta a,.auth-switch a{color:#356fae}
+.auth-submit{background:linear-gradient(100deg,#4d8acb,#245f9e);box-shadow:0 10px 22px #356fae30}
+.auth-form input[type=checkbox]{accent-color:#356fae}
+.role-option.selected{border-color:#6e9fd5;background:#edf5ff;box-shadow:0 0 0 2px #6e9fd51a}
 .auth-mobile-brand .auth-brand{color:#29364c}
-.auth-mobile-brand .auth-brand-mark{background:#f9e7ed;color:#ad5b78;box-shadow:none}
-.auth-mobile-brand .auth-brand small{color:#917b87}
-.auth-back{color:#9b8290}
-.auth-footer{color:#ad98a2}
+.auth-mobile-brand .auth-brand-mark{background:#e6f1ff;color:#356fae;box-shadow:none}
+.auth-mobile-brand .auth-brand small{color:#7389a4}
+.auth-back{color:#7187a2}
+.auth-footer{color:#899bb1}
 @media(max-width:760px){
- .auth-shell{background:linear-gradient(145deg,#fff5f8,#fff 65%)}
+ .auth-shell{background:linear-gradient(145deg,#edf5ff,#fff 65%)}
  .auth-panel{background:transparent;overflow:hidden}
- .auth-panel::before{content:"❀";position:absolute;top:18px;left:-35px;font-size:145px;color:#e9b8c6;opacity:.18;pointer-events:none}
- .auth-card{position:relative;z-index:1;border-color:#f0dfe6;box-shadow:0 18px 55px #9b5c7010}
+ .auth-panel::before{content:"✿";position:absolute;top:18px;left:-35px;font-size:145px;color:#9bbfe9;opacity:.18;pointer-events:none}
+ .auth-card{position:relative;z-index:1;border-color:#dce9f7;box-shadow:0 18px 55px #3e75b010}
 }

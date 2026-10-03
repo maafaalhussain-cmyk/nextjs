@@ -16,19 +16,19 @@ const categories = ["الكل", "الأزياء", "الإلكترونيات", "�
 export default function Page() {
   const [active, setActive] = useState("الكل");
   const [search, setSearch] = useState("");
-  const [cart, setCart] = useState<number[]>([]);
+  const [cart, setCart] = useState<number[]>([]);\n  const [cartOpen, setCartOpen] = useState(false);\n  const cartProducts = cart.map((id) => products.find((p) => p.id === id)!).filter(Boolean);\n  const cartTotal = cartProducts.reduce((sum, p) => sum + p.price, 0);
   const shown = useMemo(() => products.filter((p) =>
     (active === "الكل" || p.category === active) &&
     p.name.includes(search.trim())
   ), [active, search]);
 
   return (
-    <main dir="rtl">
+    <main dir="rtl">\n      {cartOpen && <div className="cart-overlay" onClick={() => setCartOpen(false)}><section className="cart-drawer" onClick={(e) => e.stopPropagation()} aria-label="سلة المشتريات"><div className="cart-heading"><h2>سلة المشتريات</h2><button onClick={() => setCartOpen(false)} aria-label="إغلاق السلة">×</button></div>{cartProducts.length === 0 ? <p className="cart-empty">سلتك فارغة حالياً. ابدأ بإضافة المنتجات التي أعجبتك.</p> : <><div className="cart-items">{cartProducts.map((p, i) => <div className="cart-item" key={`${p.id}-${i}`}><img src={p.image} alt={p.name}/><div><b>{p.name}</b><span>{p.price} ر.س</span></div><button aria-label="حذف المنتج" onClick={() => setCart((items) => { const next = [...items]; next.splice(i, 1); return next; })}>حذف</button></div>)}</div><div className="cart-total"><span>الإجمالي</span><b>{cartTotal.toLocaleString("ar-SA")} ر.س</b></div><p className="cart-disclaimer">هذه سلة تجريبية للمعاينة؛ الدفع وإتمام الطلب الإلكتروني غير مفعّلين بعد.</p></>}<button className="cart-continue" onClick={() => setCartOpen(false)}>متابعة التسوق</button></section></div>}
       <div className="top-strip">تسوّق بثقة من متاجر وبائعين محليين في جميع أنحاء المملكة</div>
       <header className="site-header">
-        <a className="brand" href="#"><span className="brand-mark">س&amp;M</span><span>J & M<small>كل ما تحتاجه في مكان واحد</small></span></a>
+        <a className="brand" href="#"><span className="brand-mark">J&amp;M</span><span>J & M<small>كل ما تحتاجه في مكان واحد</small></span></a>
         <nav className="main-nav"><a href="#products">المنتجات</a><a href="#categories">التصنيفات</a><a href="#seller">كن بائعاً</a></nav>
-        <div className="header-actions"><a className="login-link" href="#seller">دخول / تسجيل</a><button className="cart-button" aria-label="سلة المشتريات">🛍️ <span>السلة</span><b>{cart.length}</b></button></div>
+        <div className="header-actions"><a className="login-link" href="#seller">دخول / تسجيل</a><button className="cart-button" aria-label="فتح سلة المشتريات" onClick={() => setCartOpen(true)}>🛍️ <span>السلة</span><b>{cart.length}</b></button></div>
       </header>
 
       <section className="hero">
@@ -45,7 +45,7 @@ export default function Page() {
         {shown.length === 0 && <p className="empty-state">لا توجد منتجات مطابقة. جرّب كلمة بحث أخرى.</p>}
       </section>
 
-      <section className="seller-banner" id="seller"><div><span className="eyebrow">لأصحاب المتاجر ورواد الأعمال</span><h2>عندك منتجات؟<br/>خلّها توصل لعملاء أكثر.</h2><p>انضم إلى J & M واعرض منتجاتك أمام عملاء من مختلف مناطق المملكة. أنت تتولى تجهيز وشحن طلباتك، ونحن نوفر لك واجهة البيع.</p><a className="light-button" href="mailto:partners@sooqna.sa?subject=طلب%20انضمام%20بائع">سجّل اهتمامك كبائع <span>←</span></a></div><div className="seller-icon">🏪</div></section>
+      <section className="seller-banner" id="seller"><div><span className="eyebrow">لأصحاب المتاجر ورواد الأعمال</span><h2>عندك منتجات؟<br/>خلّها توصل لعملاء أكثر.</h2><p>انضم إلى J & M واعرض منتجاتك أمام عملاء من مختلف مناطق المملكة. أنت تتولى تجهيز وشحن طلباتك، ونحن نوفر لك واجهة البيع.</p><a className="light-button" href="#seller">التسجيل للبائعين قريباً <span>←</span></a></div><div className="seller-icon">🏪</div></section>
 
       <footer className="footer"><a className="brand footer-brand" href="#"><span className="brand-mark">J&amp;M</span><span>J & M<small>كل ما تحتاجه في مكان واحد</small></span></a><span>© {new Date().getFullYear()} J & M. جميع الحقوق محفوظة.</span><span>منصة تجمع البائعين والمشترين</span></footer>
     </main>

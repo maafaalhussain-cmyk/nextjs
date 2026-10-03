@@ -6,6 +6,7 @@ create table if not exists public.profiles (
   full_name text not null default '',
   phone text not null default '',
   role text not null default 'customer' check (role in ('customer','seller','admin')),
+  seller_status text not null default 'none' check (seller_status in ('none','pending','approved','rejected')),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -63,12 +64,13 @@ create index if not exists order_items_seller_idx on public.order_items(seller_i
 create or replace function public.handle_new_user()
 returns trigger language plpgsql security definer set search_path = '' as $$
 begin
-  insert into public.profiles (id, full_name, phone, role)
+  insert into public.profiles (id, full_name, phone, role, seller_status)
   values (
     new.id,
     coalesce(new.raw_user_meta_data ->> 'full_name',''),
     coalesce(new.raw_user_meta_data ->> 'phone',''),
-    'customer'
+    'customer',
+    case when new.raw_user_meta_data ->> 'requested_role' = 'seller' then 'pending' else 'none' end
   ) on conflict (id) do nothing;
 
   if new.raw_user_meta_data ->> 'requested_role' = 'seller' then

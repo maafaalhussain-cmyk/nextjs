@@ -1,0 +1,3 @@
+import Link from "next/link";
+export const metadata={title:"عن J & M"};
+export default function About(){return <main dir="rtl" className="info-page"><Link href="/" className="info-back">← العودة للمتجر</Link><span className="eyebrow">من نحن</span><h1>كل اختياراتك في مكان واحد</h1><p>J &amp; M سوق إلكتروني يهدف إلى جمع المنتجات والمتاجر في تجربة تصفح وشراء واضحة وسهلة. نعمل على توفير مساحة تجمع العملاء والبائعين، مع توضيح مسؤوليات كل طرف في الطلب والشحن.</p><Link href="/#products" className="primary-button">اكتشف المنتجات ←</Link></main>}

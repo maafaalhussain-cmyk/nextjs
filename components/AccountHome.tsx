@@ -1,0 +1,16 @@
+"use client";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { getSupabase } from "@/lib/supabase";
+
+type Profile={full_name:string;role:string;seller_status:string;phone:string|null};
+export default function AccountHome({sellerOnly=false}:{sellerOnly?:boolean}){
+ const [profile,setProfile]=useState<Profile|null>(null),[email,setEmail]=useState(""),[loading,setLoading]=useState(true),[error,setError]=useState("");
+ useEffect(()=>{let alive=true;(async()=>{const sb=getSupabase();if(!sb){setError("خدمة الحسابات غير مهيأة بعد. أضف مفاتيح Supabase إلى إعدادات النشر.");setLoading(false);return;}const {data:{user}}=await sb.auth.getUser();if(!user){window.location.href="/login";return;}setEmail(user.email||"");const {data,error:profileError}=await sb.from("profiles").select("full_name,role,seller_status,phone").eq("id",user.id).single();if(!alive)return;if(profileError)setError("تعذر تحميل بيانات الحساب. تحقق من تطبيق ترحيلات قاعدة البيانات.");else setProfile(profile as Profile);setLoading(false);})();return()=>{alive=false}},[]);
+ async function logout(){const sb=getSupabase();if(sb)await sb.auth.signOut();window.location.href="/";}
+ if(loading)return <main className="account-page" dir="rtl"><p>جارٍ تحميل حسابك...</p></main>;
+ if(error)return <main className="account-page" dir="rtl"><Link href="/">← المتجر</Link><h1>تعذر فتح الحساب</h1><p>{error}</p></main>;
+ if(!profile)return <main className="account-page" dir="rtl"><Link href="/">← المتجر</Link><h1>لم يتم العثور على ملف الحساب</h1><p>تواصل مع الدعم بعد التأكد من إعداد قاعدة البيانات.</p></main>;
+ if(sellerOnly&&profile.role!=="seller"){return <main className="account-page" dir="rtl"><Link href="/account">← حسابي</Link><h1>هذه الصفحة مخصصة للبائعين</h1><p>أنشئ حساب بائع للانضمام إلى سوق J &amp; M.</p><Link className="account-action" href="/register">إنشاء حساب بائع</Link></main>}
+ return <main className="account-page" dir="rtl"><header className="account-header"><Link className="brand" href="/"><span className="brand-mark">J&amp;M</span><span>J &amp; M<small>مساحة حسابك</small></span></Link><button onClick={logout}>تسجيل الخروج</button></header><section className="account-welcome"><span className="eyebrow">{profile.role==="seller"?"بوابة البائع":"حساب العميل"}</span><h1>أهلاً، {profile.full_name}</h1><p>{email}</p></section>{profile.role==="seller"?<section className="account-panel"><h2>حالة حساب البائع</h2><div className={"seller-status "+profile.seller_status}>{profile.seller_status==="pending"?"بانتظار مراجعة الإدارة":profile.seller_status==="approved"?"تم اعتماد الحساب":profile.seller_status==="rejected"?"يحتاج الحساب إلى استكمال المراجعة":"غير منطبق"}</div><p>{profile.seller_status==="pending"?"استلمنا طلب انضمامك. لن تتمكن من نشر المنتجات أو استقبال الطلبات حتى تنتهي الإدارة من التحقق واعتماد الحساب.":profile.seller_status==="approved"?"حسابك معتمد. ستتوفر إدارة المنتجات والطلبات في لوحة البائع بعد استكمال تفعيلها.":"يرجى التواصل مع إدارة المنصة لمعرفة الخطوة التالية."}</p></section>:<section className="account-panel"><h2>حسابك جاهز للتصفح</h2><p>يمكنك العودة للمتجر ومتابعة المنتجات. ستظهر الطلبات هنا بعد تفعيل الدفع والطلبات.</p><Link className="account-action" href="/#products">تصفح المنتجات</Link></section>}<footer className="account-footer">J &amp; M · {new Date().getFullYear()}</footer></main>
+}

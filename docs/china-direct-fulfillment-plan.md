@@ -1,16 +1,16 @@
 # J&M — China Direct-Fulfillment Specification
 
-Status: planning specification only. This document does not activate supplier integrations, customs clearance, payments, or customer-facing products.
+Status: planning specification only. This document does not activate supplier integrations, customs clearance, payments, or customer-facing products. Commercial model clarified: J&M is the marketing/sales storefront; the supplier owns and holds the goods and performs picking, packing, dispatch and delivery directly to the Saudi customer. J&M does not buy or warehouse stock and does not operate its own shipping fleet.
 
 ## Commercial decisions
 
-- Fulfillment model: supplier ships from China directly to the Saudi customer.
+- Fulfillment model: supplier owns/holds stock and handles picking, packing, export, shipping, customs/delivery arrangements and delivery directly to the Saudi customer. J&M is the storefront/marketing and order-routing intermediary; it does not buy inventory, warehouse goods, or ship parcels itself.
+- Supplier relationship must be documented: confirm whether J&M is an agent/marketing intermediary earning commission, or the merchant/reseller collecting the customer's payment and purchasing fulfillment from the supplier. This contractual distinction determines invoicing, consumer obligations, tax treatment and importer-of-record responsibilities; do not assume J&M is the importer.
 - Customer promise: one final SAR price at checkout; no surprise collection at the door. This promise may be displayed only after the carrier/supplier confirms a delivered-duty-paid (DDP) or otherwise fully prepaid arrangement and identifies the importer of record.
-- J&M pricing rule: target markup = 15% on the fully landed cost, not on supplier list price.
-- Formula: landed_cost = discounted_supplier_price + international_shipping + insurance + customs_duty + import_VAT (where it is a true unrecoverable cost) + clearance/handling + last_mile + payment/FX costs + expected returns/claims allowance.
-- customer_price = round_to_halalah(landed_cost * 1.15). Tax invoice treatment and output VAT must be calculated separately according to J&M's registration and the legal seller/importer structure; do not blindly add or omit VAT.
-- Example: landed cost SAR 120 => target price SAR 138. This is a 15% markup on cost (not a 15% gross margin on selling price).
-- Never publish a product if landed cost is unknown, the supplier discount cannot be substantiated, stock cannot be confirmed, or expected contribution after payment/returns costs is negative.
+- J&M pricing rule: add 15% to the supplier's confirmed all-in customer-delivered quote (supplier discounted product price plus all supplier-managed shipping, customs, tax, clearance and last-mile charges). If the supplier quote excludes any of these, the missing charges must be quoted and contractually allocated before pricing.
+- Formula: J&M displayed price = supplier all-in delivered quote × 1.15, with payment costs and any J&M-borne costs checked separately before publication. Do not double-count duties/tax already included in the supplier quote. Tax invoice treatment and output VAT must be determined from the signed agency/reseller structure and J&M's registration.
+- Example: supplier's confirmed all-in delivered quote SAR 120 => J&M target price SAR 138. This is a 15% markup on cost, not a 15% gross margin on selling price.
+- Never publish a product if supplier's delivered quote, stock, discount evidence, delivery responsibility or return terms are unknown, or expected contribution after J&M-borne costs is negative.
 
 ## Product sourcing and promotion qualification
 
@@ -55,8 +55,8 @@ discovered -> supplier_verified -> compliance_review -> landed_cost_verified
 
 ## Saudi import and compliance gates
 
-- Use a licensed importer of record and a documented customs-clearance arrangement. Confirm who is importer of record for every shipment and who pays duties, import VAT, clearance, and delivery fees.
-- For the no-extra-payment-at-door promise, require written DDP terms or a contractually equivalent prepaid arrangement. If the carrier may collect from the recipient, do not publish the promise.
+- Supplier must contractually arrange the import/customs clearance and delivery directly to the customer, and identify the importer of record for each shipment. J&M must not be described as importer unless it is actually named and legally responsible.
+- For the no-extra-payment-at-door promise, require written supplier/carrier terms confirming all import duties, VAT, clearance and delivery charges are prepaid (e.g. DDP where appropriate). If the carrier may collect from the recipient, do not publish the promise.
 - Commercial imports require the applicable commercial invoice, bill of lading/air waybill, origin evidence where required, customs declaration and product-specific permits/certificates. Verify the current product tariff and regulatory requirements before listing.
 - Do not apply personal-shipment customs exemptions to a commercial marketplace model.
 - Confirm VAT treatment with a Saudi tax adviser based on the legal seller and importer-of-record structure. Import VAT may be recoverable only where statutory conditions are met; do not count recoverable input VAT as a permanent product cost, and do not omit customer-facing VAT obligations.

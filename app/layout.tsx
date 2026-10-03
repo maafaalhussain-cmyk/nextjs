@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+export const viewport = { themeColor: "#102b52", width: "device-width", initialScale: 1 };
+
 export const metadata: Metadata = {
   title: "J & M | كل ما تحتاجه في مكان واحد",
   description: "J & M — سوق إلكتروني يجمع المنتجات والمتاجر في تجربة تسوق واحدة.",

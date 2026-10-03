@@ -1,59 +1,63 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-const products = [
-  { id: 1, name: "نظارة شمسية كلاسيكية", category: "الأزياء", price: 79, oldPrice: 119, image: "/IMG_3026.jpeg", tag: "الأكثر طلباً" },
-  { id: 2, name: "ساعة يومية أنيقة", category: "الإلكترونيات", price: 149, oldPrice: 199, image: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=700&auto=format&fit=crop&q=85", tag: "عرض خاص" },
-  { id: 3, name: "حقيبة عملية", category: "الأزياء", price: 129, oldPrice: 169, image: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=700&auto=format&fit=crop&q=85", tag: "وصل حديثاً" },
-  { id: 4, name: "سماعة لاسلكية", category: "الإلكترونيات", price: 99, oldPrice: 139, image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=700&auto=format&fit=crop&q=85", tag: "الأكثر مبيعاً" },
-  { id: 5, name: "مجموعة عناية شخصية", category: "الجمال والعناية", price: 89, oldPrice: 115, image: "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?w=700&auto=format&fit=crop&q=85", tag: "اختيارنا" },
-  { id: 6, name: "حذاء رياضي مريح", category: "الأزياء", price: 189, oldPrice: 239, image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=700&auto=format&fit=crop&q=85", tag: "خصم مميز" },
-  { id: 7, name: "مصباح طاولة عصري", category: "المنزل", price: 115, oldPrice: 145, image: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=700&auto=format&fit=crop&q=85", tag: "للمنزل" },
+type Product = { id:number; name:string; category:string; price:number; oldPrice:number; image:string; tag:string; description:string; seller:string };
+const products: Product[] = [
+ {id:1,name:"نظارة شمسية كلاسيكية",category:"الأزياء",price:79,oldPrice:119,image:"/IMG_3026.jpeg",tag:"الأكثر طلباً",description:"تصميم يومي أنيق يضيف لمسة مميزة لإطلالتك. تحقق من تفاصيل المقاس والخامة قبل الطلب.",seller:"متجر J&M"},
+ {id:2,name:"ساعة يومية أنيقة",category:"الإلكترونيات",price:149,oldPrice:199,image:"https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=800&auto=format&fit=crop&q=85",tag:"عرض خاص",description:"ساعة بتصميم أنيق للاستخدام اليومي والمناسبات.",seller:"متجر الوقت"},
+ {id:3,name:"حقيبة عملية",category:"الأزياء",price:129,oldPrice:169,image:"https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=800&auto=format&fit=crop&q=85",tag:"وصل حديثاً",description:"حقيبة عملية بتصميم بسيط ومساحة مناسبة للاستخدام اليومي.",seller:"دار الأناقة"},
+ {id:4,name:"سماعة لاسلكية",category:"الإلكترونيات",price:99,oldPrice:139,image:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=85",tag:"الأكثر مبيعاً",description:"سماعة لاسلكية للاستماع اليومي. راجع مواصفات المنتج لدى البائع قبل الشراء.",seller:"متجر التقنية"},
+ {id:5,name:"مجموعة عناية شخصية",category:"الجمال والعناية",price:89,oldPrice:115,image:"https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?w=800&auto=format&fit=crop&q=85",tag:"اختيارنا",description:"مجموعة عناية للاستخدام اليومي. يرجى قراءة المكونات والتحذيرات قبل الاستخدام.",seller:"لمسة عناية"},
+ {id:6,name:"حذاء رياضي مريح",category:"الأزياء",price:189,oldPrice:239,image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&auto=format&fit=crop&q=85",tag:"خصم مميز",description:"حذاء رياضي بتصميم عصري. تأكد من اختيار المقاس المناسب.",seller:"دار الأناقة"},
+ {id:7,name:"مصباح طاولة عصري",category:"المنزل",price:115,oldPrice:145,image:"https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=800&auto=format&fit=crop&q=85",tag:"للمنزل",description:"مصباح طاولة بلمسة هادئة لإضاءة ركنك المفضل.",seller:"بيت جميل"},
+ {id:8,name:"كرسي استرخاء",category:"المنزل",price:299,oldPrice:359,image:"https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=800&auto=format&fit=crop&q=85",tag:"جديد",description:"قطعة عملية تضيف الراحة والأناقة إلى مساحة المنزل.",seller:"بيت جميل"},
+ {id:9,name:"حافظة مستحضرات",category:"الجمال والعناية",price:49,oldPrice:65,image:"https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?w=800&auto=format&fit=crop&q=85",tag:"سعر مميز",description:"حافظة عملية لترتيب مستحضرات العناية.",seller:"لمسة عناية"},
+ {id:10,name:"حقيبة ظهر يومية",category:"الأزياء",price:139,oldPrice:179,image:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&auto=format&fit=crop&q=85",tag:"اختيار عملي",description:"حقيبة ظهر مناسبة للتنقل والاستخدام اليومي.",seller:"دار الأناقة"},
+ {id:11,name:"مكبر صوت محمول",category:"الإلكترونيات",price:129,oldPrice:159,image:"https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=800&auto=format&fit=crop&q=85",tag:"وصل حديثاً",description:"مكبر صوت محمول للاستماع في المنزل وخارجه.",seller:"متجر التقنية"},
+ {id:12,name:"مزهرية ديكور",category:"المنزل",price:69,oldPrice:89,image:"https://images.unsplash.com/photo-1578500494198-246f612d3b3d?w=800&auto=format&fit=crop&q=85",tag:"لمسة منزلية",description:"مزهرية أنيقة لتكمل ديكور منزلك.",seller:"بيت جميل"},
 ];
+const categories=[{name:"الكل",icon:"✦"},{name:"الأزياء",icon:"♧"},{name:"الإلكترونيات",icon:"⌁"},{name:"الجمال والعناية",icon:"✿"},{name:"المنزل",icon:"⌂"}];
+const money=(n:number)=>new Intl.NumberFormat("ar-SA").format(n)+" ر.س";
 
-const categories = ["الكل", "الأزياء", "الإلكترونيات", "الجمال والعناية", "المنزل"];
-
-export default function Page() {
-  const [active, setActive] = useState("الكل");
-  const [search, setSearch] = useState("");
-  const [cart, setCart] = useState<number[]>([]);
-  const [cartOpen, setCartOpen] = useState(false);
-  const [favorites, setFavorites] = useState<number[]>([]);
-  const cartProducts = cart.map((id) => products.find((p) => p.id === id)!).filter(Boolean);
-  const cartTotal = cartProducts.reduce((sum, p) => sum + p.price, 0);
-  const shown = useMemo(() => products.filter((p) =>
-    (active === "الكل" || p.category === active) &&
-    p.name.includes(search.trim())
-  ), [active, search]);
-
-  return (
-    <main dir="rtl">
-      {cartOpen && <div className="cart-overlay" onClick={() => setCartOpen(false)}><section className="cart-drawer" onClick={(e) => e.stopPropagation()} aria-label="سلة المشتريات"><div className="cart-heading"><h2>سلة المشتريات</h2><button onClick={() => setCartOpen(false)} aria-label="إغلاق السلة">×</button></div>{cartProducts.length === 0 ? <p className="cart-empty">سلتك فارغة حالياً. ابدأ بإضافة المنتجات التي أعجبتك.</p> : <><div className="cart-items">{cartProducts.map((p, i) => <div className="cart-item" key={`${p.id}-${i}`}><img src={p.image} alt={p.name}/><div><b>{p.name}</b><span>{p.price} ر.س</span></div><button aria-label="حذف المنتج" onClick={() => setCart((items) => { const next = [...items]; next.splice(i, 1); return next; })}>حذف</button></div>)}</div><div className="cart-total"><span>الإجمالي</span><b>{cartTotal.toLocaleString("ar-SA")} ر.س</b></div><p className="cart-disclaimer">هذه سلة تجريبية للمعاينة؛ الدفع وإتمام الطلب الإلكتروني غير مفعّلين بعد.</p></>}<button className="cart-continue" onClick={() => setCartOpen(false)}>متابعة التسوق</button></section></div>}
-      <div className="top-strip">تسوّق بثقة من متاجر وبائعين محليين في جميع أنحاء المملكة</div>
-      <header className="site-header">
-        <a className="brand" href="#"><span className="brand-mark">J&amp;M</span><span>J & M<small>كل ما تحتاجه في مكان واحد</small></span></a>
-        <nav className="main-nav"><a href="#products">المنتجات</a><a href="#categories">التصنيفات</a><a href="#seller">كن بائعاً</a></nav>
-        <div className="header-actions"><a className="login-link" href="/login">دخول</a><a className="login-link" href="/register">إنشاء حساب</a><button className="cart-button" aria-label="فتح سلة المشتريات" onClick={() => setCartOpen(true)}>🛍️ <span>السلة</span><b>{cart.length}</b></button></div>
-      </header>
-
-      <section className="hero">
-        <div className="hero-copy"><span className="eyebrow">تجربة تسوّق مختلفة</span><h1>كل اختياراتك<br/><em>في مكان واحد</em></h1><p>اكتشف منتجات متنوعة من بائعين موثوقين، وقارن خياراتك وتسوق بسهولة.</p><a className="primary-button" href="#products">اكتشف المنتجات <span>←</span></a><div className="hero-note"><span>✓</span> متاجر متنوعة&nbsp; · &nbsp;خيارات أكثر&nbsp; · &nbsp;تسوّق أسهل</div></div>
-        <div className="hero-art"><div className="hero-orbit orbit-one"></div><div className="hero-orbit orbit-two"></div><div className="hero-card"><span className="floating-label">اختيارات تستحق</span><img src="/IMG_3026.jpeg" alt="نظارة شمسية" /><div className="hero-product-caption"><b>أناقتك تبدأ من هنا</b><span>منتجات مختارة لك</span></div></div><div className="hero-sticker">تسوّق<br/>واكتشف</div></div>
-      </section>
-
-      <section className="trust-row"><div><span>🚚</span><b>شحن من البائع</b><small>تفاصيل الشحن لكل منتج</small></div><div><span>🔒</span><b>تسوّق آمن</b><small>حسابات بائعين موثقة</small></div><div><span>✨</span><b>تنوع أكبر</b><small>منتجات من متاجر متعددة</small></div></section>
-
-      <section className="catalog section-wrap" id="products">
-        <div className="section-heading"><div><span className="eyebrow">تصفّح واكتشف</span><h2>منتجات مختارة</h2><p>اكتشف أحدث المنتجات والعروض من بائعينا</p></div><div className="search-box"><span>⌕</span><input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="ابحث عن منتج..." /></div></div>
-        <div className="category-list" id="categories">{categories.map((c) => <button key={c} onClick={() => setActive(c)} className={active === c ? "category active" : "category"}>{c}</button>)}</div>
-        <div className="product-grid">{shown.map((p) => <article className="product-card" key={p.id}><div className="product-image"><img src={p.image} alt={p.name}/><span className="product-tag">{p.tag}</span><button className={favorites.includes(p.id) ? "heart favorited" : "heart"} aria-label={favorites.includes(p.id) ? "إزالة من المفضلة" : "أضف للمفضلة"} aria-pressed={favorites.includes(p.id)} onClick={() => setFavorites((items) => items.includes(p.id) ? items.filter((id) => id !== p.id) : [...items, p.id])}>{favorites.includes(p.id) ? "♥" : "♡"}</button></div><div className="product-info"><span className="product-category">{p.category}</span><h3>{p.name}</h3><div className="price-line"><b>{p.price} ر.س</b><del>{p.oldPrice} ر.س</del></div><button className="add-button" onClick={() => setCart((old) => [...old, p.id])}>أضف للسلة <span>＋</span></button></div></article>)}</div>
-        {shown.length === 0 && <p className="empty-state">لا توجد منتجات مطابقة. جرّب كلمة بحث أخرى.</p>}
-      </section>
-
-      <section className="seller-banner" id="seller"><div><span className="eyebrow">لأصحاب المتاجر ورواد الأعمال</span><h2>عندك منتجات؟<br/>خلّها توصل لعملاء أكثر.</h2><p>انضم إلى J & M واعرض منتجاتك أمام عملاء من مختلف مناطق المملكة. أنت تتولى تجهيز وشحن طلباتك، ونحن نوفر لك واجهة البيع.</p><a className="light-button" href="#seller">التسجيل للبائعين قريباً <span>←</span></a></div><div className="seller-icon">🏪</div></section>
-
-      <footer className="footer"><a className="brand footer-brand" href="#"><span className="brand-mark">J&amp;M</span><span>J & M<small>كل ما تحتاجه في مكان واحد</small></span></a><span>© {new Date().getFullYear()} J & M. جميع الحقوق محفوظة.</span><span>منصة تجمع البائعين والمشترين</span></footer>
-    </main>
-  );
+export default function Page(){
+ const [active,setActive]=useState("الكل"),[search,setSearch]=useState(""),[sort,setSort]=useState("featured");
+ const [cart,setCart]=useState<Record<number,number>>({}),[favorites,setFavorites]=useState<number[]>([]);
+ const [cartOpen,setCartOpen]=useState(false),[favoritesOnly,setFavoritesOnly]=useState(false);
+ const [quick,setQuick]=useState<Product|null>(null),[toast,setToast]=useState("");
+ const [ready,setReady]=useState(false);
+ useEffect(()=>{try{const c=localStorage.getItem("jm-cart-v2");const f=localStorage.getItem("jm-favorites-v2");if(c)setCart(JSON.parse(c));if(f)setFavorites(JSON.parse(f));}catch{}setReady(true)},[]);
+ useEffect(()=>{if(ready){localStorage.setItem("jm-cart-v2",JSON.stringify(cart));localStorage.setItem("jm-favorites-v2",JSON.stringify(favorites));}},[cart,favorites,ready]);
+ const shown=useMemo(()=>{let list=products.filter(p=>(active==="الكل"||p.category===active)&&(!favoritesOnly||favorites.includes(p.id))&&(!search.trim()||[p.name,p.category,p.seller].some(v=>v.includes(search.trim()))));if(sort==="low")list.sort((a,b)=>a.price-b.price);if(sort==="high")list.sort((a,b)=>b.price-a.price);if(sort==="new")list.sort((a,b)=>b.id-a.id);return list},[active,search,sort,favoritesOnly,favorites]);
+ const cartItems=products.filter(p=>(cart[p.id]||0)>0),count=Object.values(cart).reduce((a,b)=>a+b,0),total=cartItems.reduce((a,p)=>a+p.price*cart[p.id],0);
+ function add(id:number){setCart(old=>({...old,[id]:(old[id]||0)+1}));setToast("أُضيف المنتج إلى سلتك");window.setTimeout(()=>setToast(""),2200)}
+ function qty(id:number,delta:number){setCart(old=>{const next={...old};next[id]=(next[id]||0)+delta;if(next[id]<=0)delete next[id];return next})}
+ function toggleFavorite(id:number){setFavorites(old=>old.includes(id)?old.filter(x=>x!==id):[...old,id])}
+ return <main dir="rtl" className="storefront">
+  <div className="top-strip">تسوّق من متاجر متعددة في مكان واحد <span>·</span> الأسعار بالريال السعودي</div>
+  <header className="site-header">
+   <a className="brand" href="#"><span className="brand-mark">J&amp;M</span><span>J &amp; M<small>كل ما تحتاجه في مكان واحد</small></span></a>
+   <nav className="main-nav"><a href="#products">تسوق الآن</a><a href="#categories">التصنيفات</a><a href="#how">كيف نعمل؟</a><a href="#seller">للبائعين</a></nav>
+   <div className="header-actions"><a className="login-link" href="/login">دخول</a><a className="signup-link" href="/register">حساب جديد</a><button className="cart-button" onClick={()=>setCartOpen(true)} aria-label="فتح السلة">♧ <span>السلة</span><b>{count}</b></button></div>
+  </header>
+  <section className="hero">
+   <div className="hero-copy"><span className="eyebrow">أهلاً بك في J &amp; M</span><h1>تسوّق أذكى،<br/><em>واختر على راحتك.</em></h1><p>اكتشف منتجات متنوعة من متاجر مختلفة، قارن الأسعار، واجمع اختياراتك في سلة واحدة.</p><div className="hero-actions"><a className="primary-button" href="#products">ابدأ التسوق <span>←</span></a><a className="text-link" href="#categories">استكشف التصنيفات</a></div><div className="hero-note"><span>✓</span> تجربة عربية سهلة وواضحة</div></div>
+   <div className="hero-art"><div className="hero-orbit orbit-one"/><div className="hero-orbit orbit-two"/><div className="hero-card"><span className="floating-label">اختيارات تستحق</span><img src="/IMG_3026.jpeg" alt="نظارة شمسية من منتجات المتجر"/><div className="hero-product-caption"><b>أناقتك تبدأ من هنا</b><span>اكتشف مجموعتنا</span></div></div><div className="hero-sticker">اكتشف<br/>اختياراتك</div></div>
+  </section>
+  <section className="benefit-strip"><div><span>⌕</span><b>اكتشف بسهولة</b><small>بحث وتصنيفات واضحة</small></div><div><span>♡</span><b>احفظ ما يعجبك</b><small>قائمة مفضلاتك على جهازك</small></div><div><span>♧</span><b>سلة واحدة</b><small>اجمع منتجاتك قبل الطلب</small></div><div><span>↗</span><b>بائعون متعددون</b><small>تفاصيل الشحن حسب البائع</small></div></section>
+  <section className="catalog section-wrap" id="products">
+   <div className="section-heading"><div><span className="eyebrow">تصفّح واكتشف</span><h2>اكتشف منتجاتنا</h2><p>اختر التصنيف أو ابحث عن المنتج الذي تريده</p></div><div className="catalog-count">{shown.length} منتجات</div></div>
+   <div className="catalog-tools"><div className="search-box"><span>⌕</span><input value={search} onChange={e=>setSearch(e.target.value)} placeholder="ما الذي تبحث عنه؟" aria-label="ابحث عن المنتجات"/>{search&&<button onClick={()=>setSearch("")} aria-label="مسح البحث">×</button>}</div><div className="sort-wrap"><label htmlFor="sort-products">ترتيب حسب</label><select id="sort-products" value={sort} onChange={e=>setSort(e.target.value)}><option value="featured">المقترحة</option><option value="new">الأحدث</option><option value="low">السعر: الأقل أولاً</option><option value="high">السعر: الأعلى أولاً</option></select></div></div>
+   <div className="category-list" id="categories">{categories.map(c=><button key={c.name} onClick={()=>{setActive(c.name);setFavoritesOnly(false)}} className={active===c.name&&!favoritesOnly?"category active":"category"}><span>{c.icon}</span>{c.name}</button>)}<button className={favoritesOnly?"category active":"category"} onClick={()=>setFavoritesOnly(!favoritesOnly)}>♡ المفضلة ({favorites.length})</button></div>
+   <div className="product-grid">{shown.map(p=><article className="product-card" key={p.id}><div className="product-image"><button className="image-open" onClick={()=>setQuick(p)} aria-label={"عرض "+p.name}><img src={p.image} alt={p.name} loading="lazy"/></button><span className="product-tag">{p.tag}</span><button className={favorites.includes(p.id)?"heart favorited":"heart"} aria-label={favorites.includes(p.id)?"إزالة من المفضلة":"أضف للمفضلة"} aria-pressed={favorites.includes(p.id)} onClick={()=>toggleFavorite(p.id)}>{favorites.includes(p.id)?"♥":"♡"}</button></div><div className="product-info"><span className="product-category">{p.category} <i>·</i> {p.seller}</span><button className="product-title" onClick={()=>setQuick(p)}>{p.name}</button><div className="price-line"><b>{money(p.price)}</b><del>{money(p.oldPrice)}</del><span className="discount">-{Math.round((1-p.price/p.oldPrice)*100)}%</span></div><button className="add-button" onClick={()=>add(p.id)}>أضف للسلة <span>＋</span></button></div></article>)}</div>
+   {shown.length===0&&<div className="empty-state"><span>⌕</span><b>لم نعثر على نتائج</b><p>جرّب كلمة أخرى أو اختر تصنيفاً مختلفاً.</p><button onClick={()=>{setSearch("");setActive("الكل");setFavoritesOnly(false)}}>عرض جميع المنتجات</button></div>}
+  </section>
+  <section className="how-section" id="how"><div className="how-heading"><span className="eyebrow">خطوات بسيطة</span><h2>تجربة تسوّق واضحة من البداية للنهاية</h2></div><div className="how-grid"><div><span>01</span><b>اكتشف المنتجات</b><p>تصفح الأقسام أو استخدم البحث للوصول لما تحتاجه.</p></div><div><span>02</span><b>أضف إلى السلة</b><p>راجع اختياراتك وعدّل الكميات قبل المتابعة.</p></div><div><span>03</span><b>راجع تفاصيل البائع</b><p>كل متجر يوضح معلومات الشحن والتجهيز الخاصة به.</p></div></div></section>
+  <section className="seller-banner" id="seller"><div><span className="eyebrow">لأصحاب المتاجر ورواد الأعمال</span><h2>هل تملك منتجات مميزة؟<br/>اعرضها في J &amp; M.</h2><p>انضم كبائع للوصول إلى عملاء جدد. البائع مسؤول عن تجهيز الطلبات وشحنها، وتخضع حسابات البائعين للتحقق قبل تفعيل البيع.</p><a className="light-button" href="/register">ابدأ طلب الانضمام <span>←</span></a></div><div className="seller-icon">🏪</div></section>
+  <footer className="footer"><a className="brand footer-brand" href="#"><span className="brand-mark">J&amp;M</span><span>J &amp; M<small>كل ما تحتاجه في مكان واحد</small></span></a><div className="footer-links"><a href="/about">عن المتجر</a><a href="/shipping">الشحن والتوصيل</a><a href="/returns">الاستبدال والاسترجاع</a><a href="/privacy">الخصوصية</a><a href="/contact">اتصل بنا</a></div><span>© {new Date().getFullYear()} J &amp; M</span></footer>
+  {toast&&<div className="store-toast" role="status">✓ {toast}</div>}
+  {cartOpen&&<div className="cart-overlay" onClick={()=>setCartOpen(false)}><section className="cart-drawer" onClick={e=>e.stopPropagation()} aria-label="سلة المشتريات"><div className="cart-heading"><div><h2>سلة مشترياتك</h2><small>{count} قطع في السلة</small></div><button onClick={()=>setCartOpen(false)} aria-label="إغلاق السلة">×</button></div>{cartItems.length===0?<div className="cart-empty"><span>♧</span><b>سلتك بانتظار اختياراتك</b><p>أضف المنتجات التي أعجبتك وستظهر هنا.</p><button onClick={()=>setCartOpen(false)}>اكتشف المنتجات</button></div>:<><div className="cart-items">{cartItems.map(p=><div className="cart-item" key={p.id}><img src={p.image} alt={p.name}/><div className="cart-item-details"><b>{p.name}</b><small>{p.seller}</small><strong>{money(p.price)}</strong><div className="quantity-control"><button onClick={()=>qty(p.id,-1)} aria-label="تقليل الكمية">−</button><span>{cart[p.id]}</span><button onClick={()=>qty(p.id,1)} aria-label="زيادة الكمية">＋</button></div></div><button className="remove-item" onClick={()=>setCart(old=>{const n={...old};delete n[p.id];return n})}>حذف</button></div>)}</div><div className="cart-summary"><div><span>المجموع الفرعي</span><b>{money(total)}</b></div><small>تكلفة الشحن وأي رسوم إضافية تُحدد عند إتمام الطلب بعد تفعيل الدفع.</small><button className="checkout-button" onClick={()=>setCartOpen(false)} disabled>إتمام الطلب قريباً</button></div></>}<button className="cart-continue" onClick={()=>setCartOpen(false)}>متابعة التسوق</button></section></div>}
+  {quick&&<div className="quick-overlay" onClick={()=>setQuick(null)}><section className="quick-modal" onClick={e=>e.stopPropagation()}><button className="quick-close" onClick={()=>setQuick(null)} aria-label="إغلاق">×</button><img src={quick.image} alt={quick.name}/><div className="quick-info"><span className="product-category">{quick.category} · {quick.seller}</span><h2>{quick.name}</h2><p>{quick.description}</p><div className="price-line"><b>{money(quick.price)}</b><del>{money(quick.oldPrice)}</del></div><div className="seller-note">يباع ويُجهّز بواسطة: <b>{quick.seller}</b></div><button className="add-button" onClick={()=>{add(quick.id);setQuick(null)}}>أضف إلى السلة <span>＋</span></button></div></section></div>}
+  <nav className="mobile-nav"><a href="#">⌂<small>الرئيسية</small></a><a href="#categories">▦<small>الأقسام</small></a><button onClick={()=>setFavoritesOnly(!favoritesOnly)}>♡<small>المفضلة</small></button><button onClick={()=>setCartOpen(true)}>♧<small>السلة ({count})</small></button></nav>
+ </main>
 }

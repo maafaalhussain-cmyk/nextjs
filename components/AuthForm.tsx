@@ -13,6 +13,7 @@ export default function AuthForm({ mode }: Props) {
   const [notice, setNotice] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const [resetMode, setResetMode] = useState(false);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -28,6 +29,14 @@ export default function AuthForm({ mode }: Props) {
     const email = String(data.get("email") || "").trim();
     const password = String(data.get("password") || "");
     try {
+      if (!isRegister && resetMode) {
+        const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: `${window.location.origin}/reset-password`,
+        });
+        if (resetError) throw resetError;
+        setNotice("إذا كان البريد مسجلاً لدينا، فسيصلك رابط آمن لإعادة تعيين كلمة المرور.");
+        return;
+      }
       if (isRegister) {
         const fullName = String(data.get("name") || "").trim();
         const phone = String(data.get("phone") || "").trim();
@@ -87,10 +96,10 @@ export default function AuthForm({ mode }: Props) {
             <label>البريد الإلكتروني<input name="email" type="email" autoComplete="email" placeholder="name@example.com" required/></label>
             {isRegister && <label>رقم الجوال<input name="phone" type="tel" autoComplete="tel" inputMode="tel" placeholder="05xxxxxxxx" pattern="05[0-9]{8}" required/><small className="field-hint">أدخل رقم جوال سعودي يبدأ بـ 05</small></label>}
             <label>كلمة المرور<div className="password-wrap"><input name="password" type={showPassword ? "text" : "password"} autoComplete={isRegister ? "new-password" : "current-password"} placeholder="••••••••" minLength={8} required/><button type="button" onClick={() => setShowPassword(!showPassword)}>{showPassword ? "إخفاء" : "إظهار"}</button></div>{isRegister && <small className="field-hint">8 خانات على الأقل</small>}</label>
-            {!isRegister && <div className="auth-form-meta"><label className="remember"><input type="checkbox" name="remember"/> تذكرني</label><a href="mailto:support@jm-store.sa?subject=استعادة%20كلمة%20المرور">نسيت كلمة المرور؟</a></div>}
+            {!isRegister && <div className="auth-form-meta"><label className="remember"><input type="checkbox" name="remember"/> تذكرني</label><button type="button" className="text-link" onClick={() => { setResetMode(!resetMode); setError(""); setNotice(""); }}>{resetMode ? "العودة لتسجيل الدخول" : "نسيت كلمة المرور؟"}</button></div>}
             {error && <div className="auth-notice auth-error" role="alert">{error}</div>}
             {notice && <div className="auth-notice" role="status">{notice}</div>}
-            <button className="auth-submit" type="submit" disabled={busy}>{busy ? "جارٍ المعالجة..." : isRegister ? (role === "seller" ? "إنشاء حساب بائع" : "إنشاء حساب") : "دخول إلى حسابي"} <span>←</span></button>
+            <button className="auth-submit" type="submit" disabled={busy}>{busy ? "جارٍ المعالجة..." : isRegister ? (role === "seller" ? "إنشاء حساب بائع" : "إنشاء حساب") : resetMode ? "إرسال رابط الاستعادة" : "دخول إلى حسابي"} <span>←</span></button>
           </form>
           <div className="auth-switch">{isRegister ? "لديك حساب بالفعل؟" : "ليس لديك حساب؟"} <Link href={isRegister ? "/login" : "/register"}>{isRegister ? "سجّل الدخول" : "أنشئ حساباً جديداً"}</Link></div>
           <p className="auth-terms">بالمتابعة، أنت توافق على شروط الاستخدام وسياسة الخصوصية.</p>

@@ -8,7 +8,8 @@ const products = [
   { id: 3, name: "حقيبة عملية", category: "الأزياء", price: 129, oldPrice: 169, image: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=700&auto=format&fit=crop&q=85", tag: "وصل حديثاً" },
   { id: 4, name: "سماعة لاسلكية", category: "الإلكترونيات", price: 99, oldPrice: 139, image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=700&auto=format&fit=crop&q=85", tag: "الأكثر مبيعاً" },
   { id: 5, name: "مجموعة عناية شخصية", category: "الجمال والعناية", price: 89, oldPrice: 115, image: "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?w=700&auto=format&fit=crop&q=85", tag: "اختيارنا" },
-  { id: 6, name: "حذاء رياضي مريح", category: "الأزياء", price: 189, oldPrice: 239, image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=700&auto=format&fit=crop&q=85", tag: "خصم مميز" },\n  { id: 7, name: "مصباح طاولة عصري", category: "المنزل", price: 115, oldPrice: 145, image: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=700&auto=format&fit=crop&q=85", tag: "للمنزل" },
+  { id: 6, name: "حذاء رياضي مريح", category: "الأزياء", price: 189, oldPrice: 239, image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=700&auto=format&fit=crop&q=85", tag: "خصم مميز" },
+  { id: 7, name: "مصباح طاولة عصري", category: "المنزل", price: 115, oldPrice: 145, image: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=700&auto=format&fit=crop&q=85", tag: "للمنزل" },
 ];
 
 const categories = ["الكل", "الأزياء", "الإلكترونيات", "الجمال والعناية", "المنزل"];
@@ -17,7 +18,8 @@ export default function Page() {
   const [active, setActive] = useState("الكل");
   const [search, setSearch] = useState("");
   const [cart, setCart] = useState<number[]>([]);
-  const [cartOpen, setCartOpen] = useState(false);\n  const [favorites, setFavorites] = useState<number[]>([]);
+  const [cartOpen, setCartOpen] = useState(false);
+  const [favorites, setFavorites] = useState<number[]>([]);
   const cartProducts = cart.map((id) => products.find((p) => p.id === id)!).filter(Boolean);
   const cartTotal = cartProducts.reduce((sum, p) => sum + p.price, 0);
   const shown = useMemo(() => products.filter((p) =>

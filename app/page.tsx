@@ -1,3 +1,10 @@
-"use client";
-import Link from "next/link";
-export default function Home(){return <main dir="rtl" className="launch-shell"><div className="launch-card"><div className="launch-mark">J&amp;M</div><span className="eyebrow">قريباً</span><h1>نعمل على تجهيز تجربة<br/><em>J &amp; M</em> المتكاملة</h1><p>نجهّز منصة تسوّق تجمع العملاء والمتاجر في تجربة آمنة وسهلة. لن نفتح المتجر قبل اكتمال الاختبارات وتجهيز الطلبات والدفع والشحن وخدمة العملاء.</p><div className="launch-progress"><span/><span/><span/><span/></div><small>المنصة حالياً في مرحلة التجهيز والاختبار الداخلي</small><Link href="/contact" className="launch-contact">التواصل مع فريق J &amp; M</Link></div><footer>J &amp; M · جميع الحقوق محفوظة</footer></main>}
+import Storefront from "@/components/Storefront";
+
+export const metadata = {
+  title: "J & M | سوقك المتنوع",
+  description: "اكتشف منتجات متنوعة من متاجر وبائعين متعددين في مكان واحد.",
+};
+
+export default function Home() {
+  return <Storefront />;
+}

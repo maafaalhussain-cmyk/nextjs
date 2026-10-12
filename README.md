@@ -12,10 +12,12 @@
 - `/owner/products` إدارة المنتجات.
 - `/owner/orders` عرض الطلبات.
 - `/owner/finance` تقرير دفتر الأستاذ.
-- `/owner/supervisors` معلومات إعداد إدارة الفريق.
+- `/owner/supervisors` دعوة المشرفين وإدارة صلاحياتهم.
+- `/owner/sellers` مراجعة طلبات البائعين.
+- `/supervisor` مساحة عمل تظهر فيها الأقسام المسموح بها حسب الصلاحيات.
 
 ## الإعداد
-1. اضبط `NEXT_PUBLIC_SUPABASE_URL` و`NEXT_PUBLIC_SUPABASE_ANON_KEY` في بيئة النشر.
+1. اضبط `NEXT_PUBLIC_SUPABASE_URL` و`NEXT_PUBLIC_SUPABASE_ANON_KEY` و`SUPABASE_SERVICE_ROLE_KEY` في بيئة النشر. يجب أن يبقى `SUPABASE_SERVICE_ROLE_KEY` خادماً فقط ولا يبدأ اسمه بـ `NEXT_PUBLIC_`.
 2. راجع ملفات SQL في `supabase/migrations` وقارنها مع حالة قاعدة البيانات الموجودة قبل تنفيذ أي ترحيل.
 3. بعد التأكد من وجود مخطط السوق الأساسي، اتبع `docs/OWNER_SETUP.md` لتعيين حساب المالك.
 4. اختبر تسجيل الدخول، رفض الوصول لغير المالك، إنشاء منتج، وقراءة التقارير على بيئة اختبار قبل التشغيل التجاري.

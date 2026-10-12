@@ -7,6 +7,11 @@ create table if not exists public.user_roles (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+-- Update an existing owner-role table created by the earlier setup draft as well.
+alter table public.user_roles drop constraint if exists user_roles_role_check;
+alter table public.user_roles add constraint user_roles_role_check
+  check (role in ('owner','admin','supervisor','seller','customer'));
+
 alter table public.user_roles enable row level security;
 
 create or replace function public.has_market_role(required_role text)

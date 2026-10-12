@@ -24,9 +24,9 @@ security definer
 set search_path = ''
 as $$
 begin
-  if auth.uid() is null or not exists (
-    select 1 from public.profiles p
-    where p.id = auth.uid() and p.role = 'admin'
+  if auth.uid() is null or not (
+    exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin')
+    or public.has_market_permission('view_finance')
   ) then
     raise exception 'not authorized';
   end if;

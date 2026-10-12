@@ -52,9 +52,26 @@ export default function AuthForm({ mode }: Props) {
           window.location.href = role === "seller" ? "/seller" : "/account";
         }
       } else {
-        const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+        const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
         if (signInError) throw signInError;
-        window.location.href = "/account";
+        const userId = signInData.user?.id;
+        if (!userId) {
+          window.location.href = "/account";
+          return;
+        }
+        // Roles are read from the protected database table; never trust signup metadata for privileges.
+        const { data: roleRecord, error: roleError } = await supabase
+          .from("user_roles")
+          .select("role")
+          .eq("user_id", userId)
+          .maybeSingle();
+        if (!roleError && roleRecord?.role === "owner") {
+          window.location.href = "/owner";
+        } else if (!roleError && roleRecord?.role === "seller") {
+          window.location.href = "/seller";
+        } else {
+          window.location.href = "/account";
+        }
       }
     } catch (err) {
       const message = err instanceof Error ? err.message : "حدث خطأ غير متوقع.";

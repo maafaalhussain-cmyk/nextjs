@@ -67,6 +67,8 @@ export default function AuthForm({ mode }: Props) {
           .maybeSingle();
         if (!roleError && roleRecord?.role === "owner") {
           window.location.href = "/owner";
+        } else if (!roleError && roleRecord?.role === "supervisor") {
+          window.location.href = "/supervisor";
         } else if (!roleError && roleRecord?.role === "seller") {
           window.location.href = "/seller";
         } else {

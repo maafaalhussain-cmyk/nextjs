@@ -1,5 +1,5 @@
--- J&M owner access layer. Apply only after the canonical marketplace schema (0001_marketplace_core.sql).
--- Before running, replace ALL occurrences of owner@example.com with the owner account email.
+-- J&M owner access layer. Apply after the canonical marketplace schema (0001_marketplace_core.sql).
+-- Replace ALL occurrences of owner@example.com with the exact email of the existing owner account.
 create table if not exists public.user_roles (
   user_id uuid primary key references auth.users(id) on delete cascade,
   role text not null default 'customer'
@@ -7,48 +7,38 @@ create table if not exists public.user_roles (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
-
 alter table public.user_roles enable row level security;
 
 create or replace function public.has_market_role(required_role text)
 returns boolean
-language sql
-stable
-security definer
-set search_path = ''
-set row_security = off
-as $$
+language sql stable security definer
+set search_path = '' set row_security = off
+as $fn$
   select exists (
     select 1 from public.user_roles
     where user_id = (select auth.uid()) and role = required_role
   );
-$$;
+$fn$;
 revoke all on function public.has_market_role(text) from public;
 grant execute on function public.has_market_role(text) to authenticated;
 
 drop policy if exists "Read own role or owner can read roles" on public.user_roles;
-create policy "Read own role or owner can read roles"
-on public.user_roles for select to authenticated
+create policy "Read own role or owner can read roles" on public.user_roles
+for select to authenticated
 using (user_id = (select auth.uid()) or public.has_market_role('owner'));
-
 drop policy if exists "Only owner can add roles" on public.user_roles;
-create policy "Only owner can add roles"
-on public.user_roles for insert to authenticated
-with check (public.has_market_role('owner'));
-
+create policy "Only owner can add roles" on public.user_roles
+for insert to authenticated with check (public.has_market_role('owner'));
 drop policy if exists "Only owner can update roles" on public.user_roles;
-create policy "Only owner can update roles"
-on public.user_roles for update to authenticated
-using (public.has_market_role('owner'))
+create policy "Only owner can update roles" on public.user_roles
+for update to authenticated using (public.has_market_role('owner'))
 with check (public.has_market_role('owner'));
-
 drop policy if exists "Only owner can delete roles" on public.user_roles;
-create policy "Only owner can delete roles"
-on public.user_roles for delete to authenticated
-using (public.has_market_role('owner'));
+create policy "Only owner can delete roles" on public.user_roles
+for delete to authenticated using (public.has_market_role('owner'));
 grant select, insert, update, delete on public.user_roles to authenticated;
 
--- Granular supervisor access. Only trusted server-side owner APIs should write this table.
+-- Granular supervisor access. Only trusted server-side owner APIs write this table.
 create table if not exists public.supervisor_permissions (
   user_id uuid primary key references auth.users(id) on delete cascade,
   manage_products boolean not null default false,
@@ -63,12 +53,9 @@ revoke all on public.supervisor_permissions from anon, authenticated;
 
 create or replace function public.has_market_permission(permission_name text)
 returns boolean
-language sql
-stable
-security definer
-set search_path = ''
-set row_security = off
-as $
+language sql stable security definer
+set search_path = '' set row_security = off
+as $fn$
   select
     exists (
       select 1 from public.user_roles
@@ -85,14 +72,14 @@ as $
         else false
       end
     );
-$;
+$fn$;
 revoke all on function public.has_market_permission(text) from public;
 grant execute on function public.has_market_permission(text) to authenticated;
 
--- Admin/owner permissions for existing marketplace data. RLS remains enabled.
+-- Owner/admin/supervisor policies. Access stays denied unless the permission is granted.
 drop policy if exists "admins read all profiles" on public.profiles;
 create policy "admins read all profiles" on public.profiles for select to authenticated
-using (public.has_market_permission('view_orders'));
+using (public.has_market_role('owner') or public.has_market_role('admin') or public.has_market_permission('manage_sellers'));
 
 drop policy if exists "admins manage products" on public.products;
 create policy "admins manage products" on public.products for all to authenticated
@@ -101,31 +88,35 @@ with check (public.has_market_permission('manage_products'));
 
 drop policy if exists "admins read all orders" on public.orders;
 create policy "admins read all orders" on public.orders for select to authenticated
-using ((public.has_market_role('owner') or public.has_market_role('admin')));
+using (public.has_market_permission('view_orders'));
 
 drop policy if exists "admins read all order items" on public.order_items;
 create policy "admins read all order items" on public.order_items for select to authenticated
-using ((public.has_market_role('owner') or public.has_market_role('admin')));
+using (public.has_market_permission('view_orders'));
 
--- Owner bootstrap: use an existing, verified Supabase Auth account.
+drop policy if exists "supervisors review seller applications" on public.seller_applications;
+create policy "supervisors review seller applications" on public.seller_applications for update to authenticated
+using (public.has_market_permission('manage_sellers'))
+with check (public.has_market_permission('manage_sellers'));
+
+-- Owner bootstrap: this must match an existing, verified Supabase Auth account.
 insert into public.user_roles (user_id, role)
 select id, 'owner' from auth.users where lower(email) = lower('owner@example.com')
 on conflict (user_id) do update set role = 'owner', updated_at = now();
 
--- Legacy admin-only RPCs authorize through profiles.role, so keep the owner compatible.
+-- Legacy finance/seller RPCs check profiles.role = 'admin'.
 update public.profiles set role = 'admin'
 where id in (select id from auth.users where lower(email) = lower('owner@example.com'));
 
--- New accounts receive least privilege. Do not trust requested_role from client metadata.
+-- New accounts receive least privilege. Never trust requested_role from client metadata.
 create or replace function public.assign_default_customer_role()
-returns trigger language plpgsql security definer set search_path = '' as $$
+returns trigger language plpgsql security definer set search_path = '' as $fn$
 begin
-  insert into public.user_roles (user_id, role)
-  values (new.id, 'customer')
+  insert into public.user_roles (user_id, role) values (new.id, 'customer')
   on conflict (user_id) do nothing;
   return new;
 end;
-$$;
+$fn$;
 drop trigger if exists on_auth_user_created_assign_role on auth.users;
 create trigger on_auth_user_created_assign_role after insert on auth.users
 for each row execute procedure public.assign_default_customer_role();

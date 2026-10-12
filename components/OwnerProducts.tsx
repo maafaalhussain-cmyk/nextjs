@@ -21,8 +21,8 @@ export default function OwnerProducts() {
   const {data:{user}}=await sb.auth.getUser();
   if(!user){window.location.replace("/login");return;}
   setUserId(user.id);
-  const {data:role,error:roleError}=await sb.from("user_roles").select("role").eq("user_id",user.id).maybeSingle();
-  if(roleError||role?.role!=="owner"){setError("هذه الصفحة مخصصة لمالك السوق فقط.");setLoading(false);return;}
+  const {data:allowed,error:roleError}=await sb.rpc("has_market_permission",{permission_name:"manage_products"});
+  if(roleError||allowed!==true){setError("حسابك لا يملك صلاحية إدارة المنتجات. اطلب من المالك منحك هذه الصلاحية.");setLoading(false);return;}
   const {data,error:queryError}=await sb.from("products").select("id,name,description,price,stock,status,image_url,created_at,seller_id").order("created_at",{ascending:false}).limit(200);
   if(queryError)setError("تعذر تحميل المنتجات. تأكد من تشغيل ترحيل صلاحيات المالك في Supabase.");
   else setRows((data||[]) as Product[]);

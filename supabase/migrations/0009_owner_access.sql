@@ -94,6 +94,10 @@ drop policy if exists "admins read all order items" on public.order_items;
 create policy "admins read all order items" on public.order_items for select to authenticated
 using (public.has_market_permission('view_orders'));
 
+drop policy if exists "managers read seller applications" on public.seller_applications;
+create policy "managers read seller applications" on public.seller_applications for select to authenticated
+using (public.has_market_permission('manage_sellers'));
+
 drop policy if exists "supervisors review seller applications" on public.seller_applications;
 create policy "supervisors review seller applications" on public.seller_applications for update to authenticated
 using (public.has_market_permission('manage_sellers'))

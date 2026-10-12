@@ -42,6 +42,7 @@ drop policy if exists "Only owner can delete roles" on public.user_roles;
 create policy "Only owner can delete roles" on public.user_roles
 for delete to authenticated using (public.has_market_role('owner'));
 grant select, insert, update, delete on public.user_roles to authenticated;
+grant all on public.user_roles to service_role;
 
 -- Granular supervisor access. Only trusted server-side owner APIs write this table.
 create table if not exists public.supervisor_permissions (
@@ -55,6 +56,7 @@ create table if not exists public.supervisor_permissions (
 );
 alter table public.supervisor_permissions enable row level security;
 revoke all on public.supervisor_permissions from anon, authenticated;
+grant all on public.supervisor_permissions to service_role;
 
 create or replace function public.has_market_permission(permission_name text)
 returns boolean

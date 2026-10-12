@@ -67,11 +67,11 @@ export async function GET(request: Request) {
   ]);
   if (permissionsError) return NextResponse.json({ error: permissionsError.message }, { status: 500 });
   if (usersError) return NextResponse.json({ error: usersError.message }, { status: 500 });
-  const permissionMap = new Map((permissionRows || []).map(row => [row.user_id, row]));
-  const userMap = new Map((usersData.users || []).map(user => [user.id, user]));
+  const users = usersData?.users || [];
+  const permissions = permissionRows || [];
   const supervisors = (roleRows || []).map(row => {
-    const user = userMap.get(row.user_id);
-    const permission = permissionMap.get(row.user_id);
+    const user = users.find(candidate => candidate.id === row.user_id);
+    const permission = permissions.find(candidate => candidate.user_id === row.user_id);
     return {
       userId: row.user_id,
       email: user?.email || "",

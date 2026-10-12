@@ -51,20 +51,20 @@ grant select, insert, update, delete on public.user_roles to authenticated;
 -- Admin/owner permissions for existing marketplace data. RLS remains enabled.
 drop policy if exists "admins read all profiles" on public.profiles;
 create policy "admins read all profiles" on public.profiles for select to authenticated
-using (exists (select 1 from public.profiles me where me.id = (select auth.uid()) and me.role = 'admin'));
+using ((public.has_market_role('owner') or public.has_market_role('admin')));
 
 drop policy if exists "admins manage products" on public.products;
 create policy "admins manage products" on public.products for all to authenticated
-using (exists (select 1 from public.profiles me where me.id = (select auth.uid()) and me.role = 'admin'))
-with check (exists (select 1 from public.profiles me where me.id = (select auth.uid()) and me.role = 'admin'));
+using ((public.has_market_role('owner') or public.has_market_role('admin')))
+with check ((public.has_market_role('owner') or public.has_market_role('admin')));
 
 drop policy if exists "admins read all orders" on public.orders;
 create policy "admins read all orders" on public.orders for select to authenticated
-using (exists (select 1 from public.profiles me where me.id = (select auth.uid()) and me.role = 'admin'));
+using ((public.has_market_role('owner') or public.has_market_role('admin')));
 
 drop policy if exists "admins read all order items" on public.order_items;
 create policy "admins read all order items" on public.order_items for select to authenticated
-using (exists (select 1 from public.profiles me where me.id = (select auth.uid()) and me.role = 'admin'));
+using ((public.has_market_role('owner') or public.has_market_role('admin')));
 
 -- Owner bootstrap: use an existing, verified Supabase Auth account.
 insert into public.user_roles (user_id, role)

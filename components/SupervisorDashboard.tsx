@@ -7,7 +7,7 @@ const sections:Section[]=[
  {key:"manage_products",title:"إدارة المنتجات",detail:"إضافة المنتجات وتحديث السعر والمخزون",href:"/owner/products",icon:"🛍️"},
  {key:"view_orders",title:"عرض الطلبات",detail:"متابعة الطلبات المسجلة",href:"/owner/orders",icon:"📦"},
  {key:"view_finance",title:"التقارير المالية",detail:"عرض قيود دفتر الأستاذ",href:"/owner/finance",icon:"💰"},
- {key:"manage_sellers",title:"إدارة البائعين",detail:"صلاحية مراجعة طلبات البائعين",href:"/owner/supervisors",icon:"🏪"},
+ {key:"manage_sellers",title:"إدارة البائعين",detail:"صلاحية مراجعة طلبات البائعين",href:"/owner/sellers",icon:"🏪"},
 ];
 export default function SupervisorDashboard(){
  const [loading,setLoading]=useState(true);const [email,setEmail]=useState("");const [allowed,setAllowed]=useState<string[]>([]);const [error,setError]=useState("");

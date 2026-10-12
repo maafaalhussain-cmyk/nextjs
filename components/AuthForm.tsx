@@ -72,7 +72,9 @@ export default function AuthForm({ mode }: Props) {
         } else if (!roleError && roleRecord?.role === "seller") {
           window.location.href = "/seller";
         } else {
-          window.location.href = "/account";
+          // Preserve access for older seller accounts created before the role table existed.
+          const { data: legacyProfile } = await supabase.from("profiles").select("role").eq("id", userId).maybeSingle();
+          window.location.href = legacyProfile?.role === "seller" ? "/seller" : "/account";
         }
       }
     } catch (err) {

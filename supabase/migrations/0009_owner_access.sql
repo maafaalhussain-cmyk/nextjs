@@ -99,6 +99,32 @@ create policy "supervisors review seller applications" on public.seller_applicat
 using (public.has_market_permission('manage_sellers'))
 with check (public.has_market_permission('manage_sellers'));
 
+-- Allow seller-application review only when the actor has the explicit manage_sellers permission.
+create or replace function public.review_seller_application(application_id uuid, decision text)
+returns void
+language plpgsql security definer set search_path = ''
+as $fn$
+declare target_user uuid;
+begin
+  if auth.uid() is null or not public.has_market_permission('manage_sellers') then
+    raise exception 'not authorized';
+  end if;
+  if decision not in ('approved','rejected') then raise exception 'invalid decision'; end if;
+  select user_id into target_user from public.seller_applications where id = application_id for update;
+  if target_user is null then raise exception 'application not found'; end if;
+  update public.seller_applications
+    set status = decision, reviewed_at = now(), reviewed_by = (select auth.uid())
+    where id = application_id;
+  if decision = 'approved' then
+    update public.profiles set role = 'seller', seller_status = 'approved', updated_at = now() where id = target_user;
+  else
+    update public.profiles set role = 'customer', seller_status = 'rejected', updated_at = now() where id = target_user;
+  end if;
+end;
+$fn$;
+revoke all on function public.review_seller_application(uuid,text) from public;
+grant execute on function public.review_seller_application(uuid,text) to authenticated;
+
 -- Recreate the finance RPC so supervisors can access it only when explicitly permitted.
 create or replace function public.get_financial_report(
   p_from timestamptz,

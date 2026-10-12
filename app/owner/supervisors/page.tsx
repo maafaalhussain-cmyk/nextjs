@@ -1,3 +1,3 @@
-import OwnerSection from "@/components/OwnerSection";
-export const metadata = { title: "Supervisors | J & M Owner" };
-export default function Page() { return <OwnerSection section="supervisors" />; }
+import OwnerSupervisors from "@/components/OwnerSupervisors";
+export const metadata = { title: "المشرفون والصلاحيات | J & M" };
+export default function Page() { return <OwnerSupervisors />; }

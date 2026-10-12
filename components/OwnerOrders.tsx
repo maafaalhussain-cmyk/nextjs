@@ -8,8 +8,8 @@ export default function OwnerOrders(){
  const [rows,setRows]=useState<Order[]>([]);const [loading,setLoading]=useState(true);const [error,setError]=useState("");const [query,setQuery]=useState("");const [status,setStatus]=useState("all");
  useEffect(()=>{let active=true;(async()=>{const sb=getSupabase();if(!sb){if(active){setError("إعدادات Supabase غير متوفرة.");setLoading(false)}return}
  const {data:{user}}=await sb.auth.getUser();if(!user){window.location.replace("/login");return}
- const {data:role,error:roleError}=await sb.from("user_roles").select("role").eq("user_id",user.id).maybeSingle();
- if(roleError||role?.role!=="owner"){if(active){setError("هذه الصفحة مخصصة لمالك السوق فقط.");setLoading(false)}return}
+ const {data:allowed,error:roleError}=await sb.rpc("has_market_permission",{permission_name:"view_orders"});
+ if(roleError||allowed!==true){if(active){setError("حسابك لا يملك صلاحية عرض الطلبات.");setLoading(false)}return}
  const {data,error:queryError}=await sb.from("orders").select("id,customer_id,status,subtotal,shipping_amount,total,currency,created_at").order("created_at",{ascending:false}).limit(300);
  if(!active)return;if(queryError)setError("تعذر قراءة الطلبات. تأكد من تشغيل ترحيل صلاحيات المالك.");else setRows((data||[]) as Order[]);setLoading(false);
  })();return()=>{active=false}},[]);

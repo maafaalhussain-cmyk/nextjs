@@ -36,6 +36,14 @@ insert into public.user_roles (user_id, role)
 select id, 'owner' from auth.users where lower(email) = lower('owner@example.com')
 on conflict (user_id) do update set role = 'owner', updated_at = now();
 
+-- Existing finance RPCs and admin workflows authorize via profiles.role = 'admin'.
+-- Keep that legacy compatibility for the owner account as well.
+update public.profiles
+set role = 'admin'
+where id in (
+  select id from auth.users where lower(email) = lower('owner@example.com')
+);
+
 -- All new users get customer role; client-supplied requested_role is not trusted.
 create or replace function public.assign_default_customer_role()
 returns trigger language plpgsql security definer set search_path = '' as $$

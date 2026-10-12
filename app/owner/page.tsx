@@ -7,10 +7,10 @@ import { getSupabase } from "@/lib/supabase";
 type OwnerState = "loading" | "signed-out" | "not-owner" | "ready" | "error";
 
 const sections = [
-  { icon: "👥", title: "المشرفون والصلاحيات", detail: "إدارة حسابات فريق العمل", href: "/owner/supervisors", status: "الخطوة التالية" },
-  { icon: "🛍️", title: "المنتجات", detail: "إدارة المنتجات والمخزون", href: "/owner/products", status: "قيد التجهيز" },
-  { icon: "📦", title: "الطلبات", detail: "متابعة الطلبات وحالاتها", href: "/owner/orders", status: "قيد التجهيز" },
-  { icon: "💰", title: "المبيعات والأرباح", detail: "التقارير المالية والعمولات", href: "/owner/finance", status: "قيد التجهيز" },
+  { icon: "👥", title: "المشرفون والصلاحيات", detail: "إدارة حسابات فريق العمل", href: "/owner/supervisors", status: "متاح" },
+  { icon: "🛍️", title: "المنتجات", detail: "إدارة المنتجات والمخزون", href: "/owner/products", status: "متاح" },
+  { icon: "📦", title: "الطلبات", detail: "متابعة الطلبات وحالاتها", href: "/owner/orders", status: "متاح" },
+  { icon: "💰", title: "المبيعات والأرباح", detail: "التقارير المالية والعمولات", href: "/owner/finance", status: "متاح" },
 ];
 
 export default function OwnerDashboardPage() {

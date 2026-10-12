@@ -9,6 +9,7 @@ type OwnerState = "loading" | "signed-out" | "not-owner" | "ready" | "error";
 const sections = [
   { icon: "👥", title: "المشرفون والصلاحيات", detail: "إدارة حسابات فريق العمل", href: "/owner/supervisors", status: "متاح" },
   { icon: "🛍️", title: "المنتجات", detail: "إدارة المنتجات والمخزون", href: "/owner/products", status: "متاح" },
+  { icon: "🏪", title: "طلبات البائعين", detail: "مراجعة واعتماد حسابات البائعين", href: "/owner/sellers", status: "متاح" },
   { icon: "📦", title: "الطلبات", detail: "متابعة الطلبات وحالاتها", href: "/owner/orders", status: "متاح" },
   { icon: "💰", title: "المبيعات والأرباح", detail: "التقارير المالية والعمولات", href: "/owner/finance", status: "متاح" },
 ];

@@ -7,7 +7,7 @@ const accounts:Record<string,string>={cash_clearing:"تسوية النقد",cust
 const sides:Record<string,string>={debit:"مدين",credit:"دائن"};
 function isoStart(date:string){return new Date(date+"T00:00:00+03:00").toISOString()}
 function isoEndExclusive(date:string){const d=new Date(date+"T00:00:00+03:00");d.setUTCDate(d.getUTCDate()+1);return d.toISOString()}
-function today(){return new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Riyadh",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date())}
+function today(){const parts=new Intl.DateTimeFormat("en-GB",{timeZone:"Asia/Riyadh",year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(new Date());const v=(type:string)=>parts.find(p=>p.type===type)?.value||"";return v("year")+"-"+v("month")+"-"+v("day")}
 function monthStart(){return today().slice(0,7)+"-01"}
 export default function OwnerFinance(){
  const [from,setFrom]=useState(monthStart());const [to,setTo]=useState(today());const [granularity,setGranularity]=useState("day");const [rows,setRows]=useState<Row[]>([]);const [loading,setLoading]=useState(true);const [busy,setBusy]=useState(false);const [error,setError]=useState("");const [loaded,setLoaded]=useState(false);

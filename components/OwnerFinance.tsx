@@ -14,8 +14,8 @@ export default function OwnerFinance(){
  async function runReport(){
   setError("");setBusy(true);const sb=getSupabase();if(!sb){setError("إعدادات Supabase غير متوفرة.");setBusy(false);setLoading(false);return}
   const {data:{user}}=await sb.auth.getUser();if(!user){window.location.replace("/login");return}
-  const {data:role,error:roleError}=await sb.from("user_roles").select("role").eq("user_id",user.id).maybeSingle();
-  if(roleError||role?.role!=="owner"){setError("هذه الصفحة مخصصة لمالك السوق فقط.");setBusy(false);setLoading(false);return}
+  const {data:allowed,error:roleError}=await sb.rpc("has_market_permission",{permission_name:"view_finance"});
+  if(roleError||allowed!==true){setError("حسابك لا يملك صلاحية عرض التقارير المالية.");setBusy(false);setLoading(false);return}
   if(!from||!to||from>to){setError("حدد نطاق تاريخ صحيحاً.");setBusy(false);setLoading(false);return}
   const {data,error:rpcError}=await sb.rpc("get_financial_report",{p_from:isoStart(from),p_to:isoEndExclusive(to),p_granularity:granularity,p_seller_id:null,p_product_id:null});
   if(rpcError)setError("تعذر تحميل التقرير المالي: "+rpcError.message);

@@ -3,7 +3,7 @@
 create table if not exists public.user_roles (
   user_id uuid primary key references auth.users(id) on delete cascade,
   role text not null default 'customer'
-    check (role in ('owner','admin','seller','customer')),
+    check (role in ('owner','admin','supervisor','seller','customer')),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -48,15 +48,56 @@ on public.user_roles for delete to authenticated
 using (public.has_market_role('owner'));
 grant select, insert, update, delete on public.user_roles to authenticated;
 
+-- Granular supervisor access. Only trusted server-side owner APIs should write this table.
+create table if not exists public.supervisor_permissions (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  manage_products boolean not null default false,
+  view_orders boolean not null default false,
+  view_finance boolean not null default false,
+  manage_sellers boolean not null default false,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+alter table public.supervisor_permissions enable row level security;
+revoke all on public.supervisor_permissions from anon, authenticated;
+
+create or replace function public.has_market_permission(permission_name text)
+returns boolean
+language sql
+stable
+security definer
+set search_path = ''
+set row_security = off
+as $
+  select
+    exists (
+      select 1 from public.user_roles
+      where user_id = (select auth.uid()) and role in ('owner','admin')
+    )
+    or exists (
+      select 1 from public.supervisor_permissions sp
+      where sp.user_id = (select auth.uid())
+      and case permission_name
+        when 'manage_products' then sp.manage_products
+        when 'view_orders' then sp.view_orders
+        when 'view_finance' then sp.view_finance
+        when 'manage_sellers' then sp.manage_sellers
+        else false
+      end
+    );
+$;
+revoke all on function public.has_market_permission(text) from public;
+grant execute on function public.has_market_permission(text) to authenticated;
+
 -- Admin/owner permissions for existing marketplace data. RLS remains enabled.
 drop policy if exists "admins read all profiles" on public.profiles;
 create policy "admins read all profiles" on public.profiles for select to authenticated
-using ((public.has_market_role('owner') or public.has_market_role('admin')));
+using (public.has_market_permission('view_orders'));
 
 drop policy if exists "admins manage products" on public.products;
 create policy "admins manage products" on public.products for all to authenticated
-using ((public.has_market_role('owner') or public.has_market_role('admin')))
-with check ((public.has_market_role('owner') or public.has_market_role('admin')));
+using (public.has_market_permission('manage_products'))
+with check (public.has_market_permission('manage_products'));
 
 drop policy if exists "admins read all orders" on public.orders;
 create policy "admins read all orders" on public.orders for select to authenticated
